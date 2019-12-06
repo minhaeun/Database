@@ -8,21 +8,16 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-import pymysql
+from DBManager import DBManager
+
 
 class Ui_MainWindow(object):
-    def beforeSetupUi(self, MainWindow):
-        self.mysql = pymysql.connect(host='localhost',port=3306,user='root',passwd='',db='library')
-        print("mysql conn")
-        cursor = self.mysql.cursor()
-        cursor.execute("select * from area;");
-        result = cursor.fetchone()
-        while(result):
-            print(result)
-            result=cursor.fetchone()
+    dbmanager = DBManager()
+    page_rental = 1
+    page_overdue = 1
+    page_size = 3
 
     def setupUi(self, MainWindow):
-        self.beforeSetupUi(MainWindow);
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(845, 600)
         MainWindow.setTabShape(QtWidgets.QTabWidget.Rounded)
@@ -32,8 +27,10 @@ class Ui_MainWindow(object):
         self.txtUserid.setGeometry(QtCore.QRect(30, 20, 151, 31))
         self.txtUserid.setText("")
         self.txtUserid.setObjectName("txtUserid")
+        
+
         self.groupBox = QtWidgets.QGroupBox(self.centralwidget)
-        self.groupBox.setGeometry(QtCore.QRect(20, 60, 221, 161))
+        self.groupBox.setGeometry(QtCore.QRect(20, 70, 221, 231))
         self.groupBox.setObjectName("groupBox")
         self.label = QtWidgets.QLabel(self.groupBox)
         self.label.setGeometry(QtCore.QRect(20, 40, 71, 16))
@@ -44,33 +41,52 @@ class Ui_MainWindow(object):
         self.label_2.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_2.setObjectName("label_2")
         self.label_3 = QtWidgets.QLabel(self.groupBox)
-        self.label_3.setGeometry(QtCore.QRect(20, 130, 71, 16))
+        self.label_3.setGeometry(QtCore.QRect(20, 190, 71, 16))
         self.label_3.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_3.setObjectName("label_3")
         self.label_4 = QtWidgets.QLabel(self.groupBox)
-        self.label_4.setGeometry(QtCore.QRect(20, 100, 71, 16))
+        self.label_4.setGeometry(QtCore.QRect(20, 160, 71, 16))
         self.label_4.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_4.setObjectName("label_4")
-        self.label_5 = QtWidgets.QLabel(self.groupBox)
-        self.label_5.setGeometry(QtCore.QRect(100, 130, 101, 16))
-        self.label_5.setText("")
-        self.label_5.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
-        self.label_5.setObjectName("label_5")
-        self.label_6 = QtWidgets.QLabel(self.groupBox)
-        self.label_6.setGeometry(QtCore.QRect(100, 70, 101, 16))
-        self.label_6.setText("")
-        self.label_6.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
-        self.label_6.setObjectName("label_6")
-        self.label_7 = QtWidgets.QLabel(self.groupBox)
-        self.label_7.setGeometry(QtCore.QRect(100, 100, 101, 16))
-        self.label_7.setText("")
-        self.label_7.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
-        self.label_7.setObjectName("label_7")
-        self.label_8 = QtWidgets.QLabel(self.groupBox)
-        self.label_8.setGeometry(QtCore.QRect(100, 40, 101, 16))
-        self.label_8.setText("")
-        self.label_8.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
-        self.label_8.setObjectName("label_8")
+        self.lbOverdue = QtWidgets.QLabel(self.groupBox)
+        self.lbOverdue.setGeometry(QtCore.QRect(100, 190, 101, 16))
+        self.lbOverdue.setText("")
+        self.lbOverdue.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.lbOverdue.setObjectName("lbOverdue")
+        self.lbUserno = QtWidgets.QLabel(self.groupBox)
+        self.lbUserno.setGeometry(QtCore.QRect(100, 70, 101, 16))
+        self.lbUserno.setText("")
+        self.lbUserno.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.lbUserno.setObjectName("lbUserno")
+        self.lbTotal = QtWidgets.QLabel(self.groupBox)
+        self.lbTotal.setGeometry(QtCore.QRect(100, 160, 101, 16))
+        self.lbTotal.setText("")
+        self.lbTotal.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.lbTotal.setObjectName("lbTotal")
+        self.lbUsername = QtWidgets.QLabel(self.groupBox)
+        self.lbUsername.setGeometry(QtCore.QRect(100, 40, 101, 16))
+        self.lbUsername.setText("")
+        self.lbUsername.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.lbUsername.setObjectName("lbUsername")
+        self.lbEmail = QtWidgets.QLabel(self.groupBox)
+        self.lbEmail.setGeometry(QtCore.QRect(100, 130, 101, 16))
+        self.lbEmail.setText("")
+        self.lbEmail.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.lbEmail.setObjectName("lbEmail")
+        self.lbPhonenum = QtWidgets.QLabel(self.groupBox)
+        self.lbPhonenum.setGeometry(QtCore.QRect(100, 100, 101, 16))
+        self.lbPhonenum.setText("")
+        self.lbPhonenum.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.lbPhonenum.setObjectName("lbPhonenum")
+        self.label_21 = QtWidgets.QLabel(self.groupBox)
+        self.label_21.setGeometry(QtCore.QRect(20, 130, 71, 16))
+        self.label_21.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_21.setObjectName("label_21")
+        self.label_25 = QtWidgets.QLabel(self.groupBox)
+        self.label_25.setGeometry(QtCore.QRect(20, 100, 71, 16))
+        self.label_25.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_25.setObjectName("label_25")
+
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(180, 20, 71, 32))
         self.pushButton.setObjectName("pushButton")
@@ -83,14 +99,23 @@ class Ui_MainWindow(object):
         self.treeWidget.setColumnCount(7)
         self.treeWidget.setObjectName("treeWidget")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("image/books.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("image/books.png"),
+                       QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.treeWidget.headerItem().setIcon(2, icon)
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("image/note.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+        icon1.addPixmap(QtGui.QPixmap("image/note.png"),
+                        QtGui.QIcon.Normal, QtGui.QIcon.On)
         self.treeWidget.headerItem().setIcon(6, icon1)
         item_0 = QtWidgets.QTreeWidgetItem(self.treeWidget)
-        self.treeWidget.header().setVisible(False)
         self.treeWidget.header().setDefaultSectionSize(70)
+        self.treeWidget.setColumnWidth(0, 50)  # no
+        self.treeWidget.setColumnWidth(1, 50)  # book unique no
+        self.treeWidget.setColumnWidth(2, 120)  # title
+        self.treeWidget.setColumnWidth(3, 95)  # rental date
+        self.treeWidget.setColumnWidth(4, 95)  # due date
+        self.treeWidget.setColumnWidth(5, 50)  # percentage
+        # self.treeWidget.setColumnCount(6, 80) #note -> auto
+
         self.label_10 = QtWidgets.QLabel(self.centralwidget)
         self.label_10.setGeometry(QtCore.QRect(270, 10, 32, 32))
         self.label_10.setText("")
@@ -233,36 +258,6 @@ class Ui_MainWindow(object):
         self.pagePrev1_13.setPixmap(QtGui.QPixmap("image/square.png"))
         self.pagePrev1_13.setScaledContents(True)
         self.pagePrev1_13.setObjectName("pagePrev1_13")
-        self.label_13.raise_()
-        self.pagePrev1_3.raise_()
-        self.pagePrev1_4.raise_()
-        self.pagePrev1_7.raise_()
-        self.label_19.raise_()
-        self.txtUserid.raise_()
-        self.groupBox.raise_()
-        self.pushButton.raise_()
-        self.label_9.raise_()
-        self.treeWidget.raise_()
-        self.label_10.raise_()
-        self.label_11.raise_()
-        self.label_12.raise_()
-        self.treeWidget_2.raise_()
-        self.groupBox_2.raise_()
-        self.pagePrev1.raise_()
-        self.label_15.raise_()
-        self.label_16.raise_()
-        self.pagePrev1_8.raise_()
-        self.label_20.raise_()
-        self.pagePrev1_9.raise_()
-        self.label_22.raise_()
-        self.label_23.raise_()
-        self.label_24.raise_()
-        self.pagePrev1_11.raise_()
-        self.label_14.raise_()
-        self.pagePrev1_2.raise_()
-        self.pagePrev1_12.raise_()
-        self.label_26.raise_()
-        self.pagePrev1_13.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 845, 22))
@@ -279,15 +274,19 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.txtUserid.setPlaceholderText(_translate("MainWindow", "Userid"))
+
         self.groupBox.setTitle(_translate("MainWindow", "사용자 정보"))
         self.label.setText(_translate("MainWindow", "이름 :"))
         self.label_2.setText(_translate("MainWindow", "사용자 번호 :"))
         self.label_3.setText(_translate("MainWindow", "연체권수 :"))
         self.label_4.setText(_translate("MainWindow", "대여권수 :"))
+        self.label_21.setText(_translate("MainWindow", "이메일 :"))
+        self.label_25.setText(_translate("MainWindow", "휴대폰 번호 :"))
         self.pushButton.setText(_translate("MainWindow", "조회"))
+        self.pushButton.setFocusPolicy(QtCore.Qt.StrongFocus)
         self.label_9.setText(_translate("MainWindow", "대여현황"))
         self.treeWidget.headerItem().setText(0, _translate("MainWindow", "No"))
-        self.treeWidget.headerItem().setText(1, _translate("MainWindow", "등록번호"))
+        self.treeWidget.headerItem().setText(1, _translate("MainWindow", "책 번호"))
         self.treeWidget.headerItem().setText(2, _translate("MainWindow", "제목"))
         self.treeWidget.headerItem().setText(3, _translate("MainWindow", "대여시작일"))
         self.treeWidget.headerItem().setText(4, _translate("MainWindow", "반납예정일"))
@@ -295,13 +294,20 @@ class Ui_MainWindow(object):
         self.treeWidget.headerItem().setText(6, _translate("MainWindow", "메모"))
         __sortingEnabled = self.treeWidget.isSortingEnabled()
         self.treeWidget.setSortingEnabled(False)
-        self.treeWidget.topLevelItem(0).setText(0, _translate("MainWindow", "1"))
-        self.treeWidget.topLevelItem(0).setText(1, _translate("MainWindow", "1"))
-        self.treeWidget.topLevelItem(0).setText(2, _translate("MainWindow", "물은 답을 알고 있다"))
-        self.treeWidget.topLevelItem(0).setText(3, _translate("MainWindow", "2019-12-04"))
-        self.treeWidget.topLevelItem(0).setText(4, _translate("MainWindow", "2019-12-07"))
-        self.treeWidget.topLevelItem(0).setText(5, _translate("MainWindow", "0"))
-        self.treeWidget.topLevelItem(0).setText(6, _translate("MainWindow", "상습연체자"))
+        self.treeWidget.topLevelItem(0).setText(
+            0, _translate("MainWindow", "1"))
+        self.treeWidget.topLevelItem(0).setText(
+            1, _translate("MainWindow", "1"))
+        self.treeWidget.topLevelItem(0).setText(
+            2, _translate("MainWindow", "물은 답을 알고 있다"))
+        self.treeWidget.topLevelItem(0).setText(
+            3, _translate("MainWindow", "2019-12-04"))
+        self.treeWidget.topLevelItem(0).setText(
+            4, _translate("MainWindow", "2019-12-07"))
+        self.treeWidget.topLevelItem(0).setText(
+            5, _translate("MainWindow", "0"))
+        self.treeWidget.topLevelItem(0).setText(
+            6, _translate("MainWindow", "상습연체자"))
         self.treeWidget.setSortingEnabled(__sortingEnabled)
         self.label_12.setText(_translate("MainWindow", "연체현황"))
         self.groupBox_2.setTitle(_translate("MainWindow", "사서 관리"))
@@ -317,6 +323,65 @@ class Ui_MainWindow(object):
         self.label_24.setText(_translate("MainWindow", "2"))
         self.label_14.setText(_translate("MainWindow", "<"))
         self.label_26.setText(_translate("MainWindow", ">"))
+
+        self.setEvent()
+
+    def btnInquery(self):
+        self.userid = self.txtUserid.text()
+        self.page_rental = 1
+        self.page_overdue = 1
+
+        self.inquery_info()
+        self.inquery_rental()
+        self.inquery_overdue()
+
+    def inquery_info(self):
+        userid = self.userid
+        info = self.dbmanager.inquery_info(userid)
+        
+        self.lbUsername.setText(info['user_name'])
+        self.lbUserno.setText(str(info['user_no']))
+        self.lbPhonenum.setText(info['phonenum'])
+        self.lbEmail.setText(info['email'])
+        self.lbTotal.setText(str(info['total']))
+        self.lbOverdue.setText(str(info['overdue']))
+        
+        pass
+
+    def inquery_rental(self, page=1):
+        userid = self.userid
+        size = self.page_size
+        tw = self.treeWidget
+        tw.clear()
+        rows = self.dbmanager.inquery_rental(userid, size, page)
+        for row in rows:
+            item = self.addItem(tw)
+            item.setText(0, str(row['rental_no']))
+            item.setText(1, str(row['book_unique_no']))
+            item.setText(2, str(row['title']))
+            item.setText(3, str(row['rental_date']))
+            item.setText(4, str(row['due_date']))
+            progress = QtWidgets.QProgressBar()
+            percent = round(float(row['percent']))
+            if(percent > 100):
+                percent = 100
+            progress.setValue()
+            tw.setItemWidget(item, 5, progress)
+            # item.setText(5, str(row['percent']))
+            item.setText(
+                6, str(row['note'] if row['note'] is not None else ''))
+
+    def inquery_overdue(self):
+        pass
+
+    def setEvent(self):
+        self.pushButton.clicked.connect(self.btnInquery)  # 조회
+        # self.pushButton_2.clicked.connect() # 대출
+        # self.pushButton_3.clicked.connect() # 예약
+
+    def addItem(self, tree):
+        item = QtWidgets.QTreeWidgetItem(tree)
+        return item
 
 
 if __name__ == "__main__":

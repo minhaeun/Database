@@ -10,12 +10,13 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from mywidget import MyWidget
 
-class Ui_Form(object):
+class Ui_Form(QtWidgets.QWidget):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(400, 600)
         # Form.setStyleSheet("Background-color: #ddd")
-        self.widget = MyWidget()
+        self.widget = MyWidget(self)
+        self.widget.setAutoFillBackground(True)
         self.widget.setStyleSheet("Background-color: #000")
         self.widget.setGeometry(QtCore.QRect(0, 0, 300, 111))
         self.widget.setObjectName("widget")
@@ -30,8 +31,8 @@ class Ui_Form(object):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    ui = Ui_Form()
     Form = QtWidgets.QWidget()
+    ui = Ui_Form()
     ui.setupUi(Form)
     Form.show()
     sys.exit(app.exec_())

@@ -13,12 +13,12 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="abc" name="widget" native="true">
+  <widget class="QWidget" name="widget" native="true">
    <property name="geometry">
     <rect>
      <x>40</x>
      <y>40</y>
-     <width>171</width>
+     <width>291</width>
      <height>111</height>
     </rect>
    </property>
@@ -70,16 +70,18 @@
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
+   <widget class="QWidget" name="widget_2" native="true">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>10</y>
+      <width>120</width>
+      <height>80</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>abc</class>
-   <extends>QWidget</extends>
-   <header location="global">abc.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
