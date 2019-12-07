@@ -27,12 +27,11 @@ class DBManager():
         sql = '''
             select 
                 user.*,
-                count(1) total,
-                count(if(datediff(due_date,now())<0,1,null)) overdue
+                count(if(return_date is null,1,null)) total,
+                count(if((datediff(due_date,now())<0) and (return_date is null),1,null)) overdue
             from user,rental
             where
                 user.user_no=rental.user_no
-                and rental.return_date is null
                 and user.user_id=%s
             group by user.user_no;
         '''
@@ -133,4 +132,11 @@ class DBManager():
         return self.selects(sql)
 
      
-
+    def search_book(self, title):
+        sql = '''
+            select book_detail.book_no, area.category, book_detail.title, book_detail.author, book_detail.publisher, book_detail.published_date
+            from book_detail, area
+            where area.area_no = book_detail.area_no
+                and book_detail.title like '%s'
+        '''
+        return self.selects(sql, "%"+title+"%")
