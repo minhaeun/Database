@@ -13,12 +13,11 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class SearchDialog(object):
     def __init__(self, dbmanager):
         self.dbmanager = dbmanager
-        print("dbmanager 등록")
-        print(dbmanager)
 
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(646, 348)
+        self.Dialog = Dialog
         self.pushButton = QtWidgets.QPushButton(Dialog)
         self.pushButton.setGeometry(QtCore.QRect(330, 30, 71, 32))
         font = QtGui.QFont()
@@ -62,8 +61,6 @@ class SearchDialog(object):
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
-        self.addBtnListener()
-
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
@@ -76,17 +73,46 @@ class SearchDialog(object):
         self.label.setText(_translate("Dialog", "서적이름"))
         self.txtPage.setText(_translate("Dialog", "1"))
         self.lbPage.setText(_translate("Dialog", "/ 10"))
-    
-    def btnSearchClicked(self):
-        print("asdf")
-        title = self.lineEdit.text()
-        print("asdf")
-        result = self.dbmanager.search_book(title)
-        print(result)
 
-    def addBtnListener(self):
-        print("af???")
-        self.pushButton.clicked.connect(self.btnSearchClicked)
+        self.pushButton.clicked.connect(
+            lambda: self.btnSearchClicked())
+
+    def show_alert(self, title, message):
+        msgbox = QtWidgets.QMessageBox(self.Dialog)
+        msgbox.setIcon(QtWidgets.QMessageBox.Warning)
+        msgbox.setText(title)
+        msgbox.setInformativeText(message)
+        msgbox.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        return msgbox.exec()
+
+    def btnSearchClicked(self):
+        self.page = 1
+        title = self.lineEdit.text()
+        self.title = title
+
+        self.search_book()
+
+    def search_book(self):
+        page = self.page
+        title = self.title
+        result = self.dbmanager.search_book(title, 10, page) # 한페이지에 10개씩
+        if(len(result) == 0):
+            self.show_alert("검색 결과", "검색 결과가 없습니다.")
+        else:
+            for row in result:
+                item = QtWidgets.QTreeWidgetItem(self.treeWidget)
+                book_no = str(row['book_no'])
+                title = row['title']
+                author = row['author']
+                publisher = row['publisher']
+                count = str(row['count'])
+                item.setText(0, book_no)
+                item.setText(1, title)
+                item.setText(2, author)
+                item.setText(3, publisher)
+                item.setText(4, count)
+                
+
 
 if __name__ == "__main__":
     import sys

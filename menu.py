@@ -10,6 +10,9 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from dbmanager import DBManager
 from search import SearchDialog
+from register import RegisterDialog
+from book_register import BookRegisterDialog
+from user_inquery import UserInqueryDialog
 
 class Ui_MainWindow(object):
     def __init__(self):
@@ -78,49 +81,49 @@ class Ui_MainWindow(object):
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
         self.label_3.setGeometry(QtCore.QRect(120, 200, 31, 31))
         self.label_3.setText("")
-        self.label_3.setPixmap(QtGui.QPixmap("image/user2.png"))
+        self.label_3.setPixmap(QtGui.QPixmap("ui/image/user2.png"))
         self.label_3.setScaledContents(True)
         self.label_3.setObjectName("label_3")
         self.label_4 = QtWidgets.QLabel(self.centralwidget)
         self.label_4.setGeometry(QtCore.QRect(140, 250, 71, 71))
         self.label_4.setText("")
-        self.label_4.setPixmap(QtGui.QPixmap("image/login.png"))
+        self.label_4.setPixmap(QtGui.QPixmap("ui/image/login.png"))
         self.label_4.setScaledContents(True)
         self.label_4.setObjectName("label_4")
         self.label_5 = QtWidgets.QLabel(self.centralwidget)
         self.label_5.setGeometry(QtCore.QRect(270, 250, 71, 71))
         self.label_5.setText("")
-        self.label_5.setPixmap(QtGui.QPixmap("image/search-user-interface-symbol.png"))
+        self.label_5.setPixmap(QtGui.QPixmap("ui/image/search-user-interface-symbol.png"))
         self.label_5.setScaledContents(True)
         self.label_5.setObjectName("label_5")
         self.label_27 = QtWidgets.QLabel(self.centralwidget)
         self.label_27.setGeometry(QtCore.QRect(120, 400, 32, 32))
         self.label_27.setText("")
-        self.label_27.setPixmap(QtGui.QPixmap("image/open-book.png"))
+        self.label_27.setPixmap(QtGui.QPixmap("ui/image/open-book.png"))
         self.label_27.setScaledContents(True)
         self.label_27.setObjectName("label_27")
         self.label_6 = QtWidgets.QLabel(self.centralwidget)
         self.label_6.setGeometry(QtCore.QRect(140, 460, 81, 81))
         self.label_6.setText("")
-        self.label_6.setPixmap(QtGui.QPixmap("image/search-of-knowledge.png"))
+        self.label_6.setPixmap(QtGui.QPixmap("ui/image/search-of-knowledge.png"))
         self.label_6.setScaledContents(True)
         self.label_6.setObjectName("label_6")
         self.label_7 = QtWidgets.QLabel(self.centralwidget)
         self.label_7.setGeometry(QtCore.QRect(270, 460, 71, 71))
         self.label_7.setText("")
-        self.label_7.setPixmap(QtGui.QPixmap("image/book (1).png"))
+        self.label_7.setPixmap(QtGui.QPixmap("ui/image/book (1).png"))
         self.label_7.setScaledContents(True)
         self.label_7.setObjectName("label_7")
         self.label_8 = QtWidgets.QLabel(self.centralwidget)
         self.label_8.setGeometry(QtCore.QRect(410, 460, 81, 81))
         self.label_8.setText("")
-        self.label_8.setPixmap(QtGui.QPixmap("image/clipboard.png"))
+        self.label_8.setPixmap(QtGui.QPixmap("ui/image/clipboard.png"))
         self.label_8.setScaledContents(True)
         self.label_8.setObjectName("label_8")
         self.label_9 = QtWidgets.QLabel(self.centralwidget)
         self.label_9.setGeometry(QtCore.QRect(540, 460, 71, 71))
         self.label_9.setText("")
-        self.label_9.setPixmap(QtGui.QPixmap("image/out-of-time.png"))
+        self.label_9.setPixmap(QtGui.QPixmap("ui/image/out-of-time.png"))
         self.label_9.setScaledContents(True)
         self.label_9.setObjectName("label_9")
         self.label_10 = QtWidgets.QLabel(self.centralwidget)
@@ -136,7 +139,7 @@ class Ui_MainWindow(object):
         self.label_11 = QtWidgets.QLabel(self.centralwidget)
         self.label_11.setGeometry(QtCore.QRect(130, 60, 81, 101))
         self.label_11.setText("")
-        self.label_11.setPixmap(QtGui.QPixmap("image/KakaoTalk_20191206_212411819.png"))
+        self.label_11.setPixmap(QtGui.QPixmap("ui/image/KakaoTalk_20191206_212411819.png"))
         self.label_11.setScaledContents(True)
         self.label_11.setObjectName("label_11")
         MainWindow.setCentralWidget(self.centralwidget)
@@ -168,31 +171,49 @@ class Ui_MainWindow(object):
 
     def btnRegisterClicked(self):
         dialog = QtWidgets.QDialog(self.MainWindow)
-        dialog_ui = SearchDialog(self.dbmanager)
+        dialog_ui = RegisterDialog(self.dbmanager)
         dialog_ui.setupUi(dialog)
         dialog.setModal(True)
         dialog.show()
         pass
 
     def btnInqueryUserClicked(self):
+        dialog = QtWidgets.QDialog(self.MainWindow)
+        dialog_ui = UserInqueryDialog(self.dbmanager)
+        dialog_ui.setupUi(dialog)
+        dialog.setModal(True)
+        dialog.show()
+        
         pass
 
     def btnSearchClicked(self):
+        dialog = QtWidgets.QDialog(self.MainWindow)
+        dialog_ui = SearchDialog(self.dbmanager)
+        dialog_ui.setupUi(dialog)
+        dialog.setModal(True)
+        dialog.show()
         pass
 
     def btnBookRegisterClicked(self):
+        dialog = QtWidgets.QDialog(self.MainWindow)
+        dialog_ui = BookRegisterDialog(self.dbmanager)
+        dialog_ui.setupUi(dialog)
+        dialog.setModal(True)
+        dialog.show()
         pass
-
+    def btnBookRequestClicked(self):
+        pass
+    
     def btnManageClicked(self):
         pass
 
     def addBtnListener(self):
         self.pushButton.clicked.connect(self.btnRegisterClicked) # 회원등록
-        self.pushButton.clicked.connect(self.btnInqueryUserClicked) # 회원조회
-        self.pushButton.clicked.connect(self.btnSearchClicked) # 서적검색
-        self.pushButton.clicked.connect(self.btnBookRegisterClicked) # 서적등록
-        self.pushButton.clicked.connect(self.btnBookRegisterClicked) # 서적 신청
-        self.pushButton.clicked.connect(self.btnManageClicked) # 연체 관리
+        self.pushButton_2.clicked.connect(self.btnInqueryUserClicked) # 회원조회
+        self.pushButton_3.clicked.connect(self.btnSearchClicked) # 서적검색
+        self.pushButton_4.clicked.connect(self.btnBookRegisterClicked) # 서적등록
+        self.pushButton_5.clicked.connect(self.btnBookRequestClicked) # 서적 신청
+        self.pushButton_6.clicked.connect(self.btnManageClicked) # 연체 관리
 
 if __name__ == "__main__":
     import sys

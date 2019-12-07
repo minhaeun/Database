@@ -10,7 +10,10 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_Dialog(object):
+class RegisterDialog(object):
+    def __init__(self, dbmanager):
+        self.dbmanager = dbmanager
+        
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(332, 370)
@@ -90,7 +93,7 @@ if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     Dialog = QtWidgets.QDialog()
-    ui = Ui_Dialog()
+    ui = RegisterDialog()
     ui.setupUi(Dialog)
     Dialog.show()
     sys.exit(app.exec_())

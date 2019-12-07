@@ -16,22 +16,19 @@ class UserInqueryDialog(object):
     userid = None
     userno = None
 
-    def __init__(self, DBManager):
-        self.dbmanager = DBManager
+    def __init__(self, dbmanager):
+        self.dbmanager = dbmanager
 
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(845, 600)
-        MainWindow.setTabShape(QtWidgets.QTabWidget.Rounded)
-        self.MainWindow = MainWindow
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.centralwidget.setObjectName("centralwidget")
-        self.txtUserid = QtWidgets.QLineEdit(self.centralwidget)
+    def setupUi(self, Dialog):
+        Dialog.setObjectName("Dialog")
+        Dialog.resize(845, 600)
+        self.Dialog = Dialog
+        self.txtUserid = QtWidgets.QLineEdit(Dialog)
         self.txtUserid.setGeometry(QtCore.QRect(30, 20, 151, 31))
         self.txtUserid.setText("")
         self.txtUserid.setObjectName("txtUserid")
 
-        self.groupBox = QtWidgets.QGroupBox(self.centralwidget)
+        self.groupBox = QtWidgets.QGroupBox(Dialog)
         self.groupBox.setGeometry(QtCore.QRect(20, 70, 221, 231))
         self.groupBox.setObjectName("groupBox")
         self.label = QtWidgets.QLabel(self.groupBox)
@@ -101,13 +98,13 @@ class UserInqueryDialog(object):
             QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_25.setObjectName("label_25")
 
-        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton = QtWidgets.QPushButton(Dialog)
         self.pushButton.setGeometry(QtCore.QRect(180, 20, 71, 32))
         self.pushButton.setObjectName("pushButton")
-        self.label_9 = QtWidgets.QLabel(self.centralwidget)
+        self.label_9 = QtWidgets.QLabel(Dialog)
         self.label_9.setGeometry(QtCore.QRect(310, 17, 58, 16))
         self.label_9.setObjectName("label_9")
-        self.treeWidget = QtWidgets.QTreeWidget(self.centralwidget)
+        self.treeWidget = QtWidgets.QTreeWidget(Dialog)
         self.treeWidget.setGeometry(QtCore.QRect(260, 50, 561, 201))
         self.treeWidget.setWordWrap(True)
         self.treeWidget.setColumnCount(6) # 메모추가하면 7개
@@ -130,22 +127,22 @@ class UserInqueryDialog(object):
         self.treeWidget.setColumnWidth(5, 50)  # percentage
         # self.treeWidget.setColumnCount(6, 80) #note -> auto
 
-        self.label_10 = QtWidgets.QLabel(self.centralwidget)
+        self.label_10 = QtWidgets.QLabel(Dialog)
         self.label_10.setGeometry(QtCore.QRect(270, 10, 32, 32))
         self.label_10.setText("")
         self.label_10.setPixmap(QtGui.QPixmap("image/books.png"))
         self.label_10.setScaledContents(True)
         self.label_10.setObjectName("label_10")
-        self.label_11 = QtWidgets.QLabel(self.centralwidget)
+        self.label_11 = QtWidgets.QLabel(Dialog)
         self.label_11.setGeometry(QtCore.QRect(270, 280, 32, 32))
         self.label_11.setText("")
         self.label_11.setPixmap(QtGui.QPixmap("image/reserved.png"))
         self.label_11.setScaledContents(True)
         self.label_11.setObjectName("label_11")
-        self.label_12 = QtWidgets.QLabel(self.centralwidget)
+        self.label_12 = QtWidgets.QLabel(Dialog)
         self.label_12.setGeometry(QtCore.QRect(310, 288, 58, 16))
         self.label_12.setObjectName("label_12")
-        self.treeWidget_2 = QtWidgets.QTreeWidget(self.centralwidget)
+        self.treeWidget_2 = QtWidgets.QTreeWidget(Dialog)
         self.treeWidget_2.setGeometry(QtCore.QRect(260, 320, 561, 201))
         self.treeWidget_2.setObjectName("treeWidget_2")
         self.treeWidget_2.headerItem().setText(0, "1")
@@ -161,7 +158,7 @@ class UserInqueryDialog(object):
 
         self.treeWidget_2.headerItem().setIcon(2, icon)
 
-        # self.groupBox_2 = QtWidgets.QGroupBox(self.centralwidget)
+        # self.groupBox_2 = QtWidgets.QGroupBox(Dialog)
         # self.groupBox_2.setGeometry(QtCore.QRect(20, 320, 221, 181))
         # self.groupBox_2.setObjectName("groupBox_2")
         # self.pushButton_2 = QtWidgets.QPushButton(self.groupBox_2)
@@ -182,94 +179,89 @@ class UserInqueryDialog(object):
         # self.label_28.setPixmap(QtGui.QPixmap("image/reservation.png"))
         # self.label_28.setScaledContents(True)
         # self.label_28.setObjectName("label_28")
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.menubar = QtWidgets.QMenuBar(Dialog)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 845, 22))
         self.menubar.setObjectName("menubar")
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
-        self.btnReturn = QtWidgets.QPushButton(self.centralwidget)
+        self.btnReturn = QtWidgets.QPushButton(Dialog)
         self.btnReturn.setGeometry(QtCore.QRect(761, 10, 61, 32))
         self.btnReturn.setObjectName("btnReturn")
 
-        self.btnExtend = QtWidgets.QPushButton(self.centralwidget)
+        self.btnExtend = QtWidgets.QPushButton(Dialog)
         self.btnExtend.setGeometry(QtCore.QRect(700, 10, 61, 32))
         self.btnExtend.setObjectName("btnExtend")
 
 
-        self.btnRental = QtWidgets.QPushButton(self.centralwidget)
+        self.btnRental = QtWidgets.QPushButton(Dialog)
         self.btnRental.setGeometry(QtCore.QRect(761, 281, 61, 32))
         self.btnRental.setObjectName("btnRental")
 
-        # self.label_17 = QtWidgets.QLabel(self.centralwidget)
+        # self.label_17 = QtWidgets.QLabel(Dialog)
         # self.label_17.setGeometry(QtCore.QRect(734, 12, 24, 24))
         # self.label_17.setText("")
         # self.label_17.setPixmap(QtGui.QPixmap("image/return.png"))
         # self.label_17.setScaledContents(True)
         # self.label_17.setObjectName("label_17")
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslateUi(Dialog)
+        QtCore.QMetaObject.connectSlotsByName(Dialog)
 
-    def retranslateUi(self, MainWindow):
+    def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.txtUserid.setPlaceholderText(_translate("MainWindow", "Userid"))
+        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        self.txtUserid.setPlaceholderText(_translate("Dialog", "Userid"))
 
-        self.groupBox.setTitle(_translate("MainWindow", "사용자 정보"))
-        self.label.setText(_translate("MainWindow", "이름 :"))
-        self.label_2.setText(_translate("MainWindow", "사용자 번호 :"))
-        self.label_3.setText(_translate("MainWindow", "연체권수 :"))
-        self.label_4.setText(_translate("MainWindow", "대여권수 :"))
-        self.label_21.setText(_translate("MainWindow", "이메일 :"))
-        self.label_25.setText(_translate("MainWindow", "휴대폰 번호 :"))
-        self.pushButton.setText(_translate("MainWindow", "조회"))
+        self.groupBox.setTitle(_translate("Dialog", "사용자 정보"))
+        self.label.setText(_translate("Dialog", "이름 :"))
+        self.label_2.setText(_translate("Dialog", "사용자 번호 :"))
+        self.label_3.setText(_translate("Dialog", "연체권수 :"))
+        self.label_4.setText(_translate("Dialog", "대여권수 :"))
+        self.label_21.setText(_translate("Dialog", "이메일 :"))
+        self.label_25.setText(_translate("Dialog", "휴대폰 번호 :"))
+        self.pushButton.setText(_translate("Dialog", "조회"))
         self.pushButton.setFocusPolicy(QtCore.Qt.StrongFocus)
-        self.label_9.setText(_translate("MainWindow", "대여현황"))
-        self.treeWidget.headerItem().setText(0, _translate("MainWindow", "No"))
-        self.treeWidget.headerItem().setText(1, _translate("MainWindow", "책 번호"))
-        self.treeWidget.headerItem().setText(2, _translate("MainWindow", "제목"))
-        self.treeWidget.headerItem().setText(3, _translate("MainWindow", "대여시작일"))
-        self.treeWidget.headerItem().setText(4, _translate("MainWindow", "반납예정일"))
-        self.treeWidget.headerItem().setText(5, _translate("MainWindow", "반납까지"))
-        # self.treeWidget.headerItem().setText(6, _translate("MainWindow", "메모"))
+        self.label_9.setText(_translate("Dialog", "대여현황"))
+        self.treeWidget.headerItem().setText(0, _translate("Dialog", "No"))
+        self.treeWidget.headerItem().setText(1, _translate("Dialog", "책 번호"))
+        self.treeWidget.headerItem().setText(2, _translate("Dialog", "제목"))
+        self.treeWidget.headerItem().setText(3, _translate("Dialog", "대여시작일"))
+        self.treeWidget.headerItem().setText(4, _translate("Dialog", "반납예정일"))
+        self.treeWidget.headerItem().setText(5, _translate("Dialog", "반납까지"))
+        # self.treeWidget.headerItem().setText(6, _translate("Dialog", "메모"))
         # __sortingEnabled = self.treeWidget.isSortingEnabled()
         # self.treeWidget.setSortingEnabled(False)
         # self.treeWidget.topLevelItem(0).setText(
-        #     0, _translate("MainWindow", "1"))
+        #     0, _translate("Dialog", "1"))
         # self.treeWidget.topLevelItem(0).setText(
-        #     1, _translate("MainWindow", "1"))
+        #     1, _translate("Dialog", "1"))
         # self.treeWidget.topLevelItem(0).setText(
-        #     2, _translate("MainWindow", "물은 답을 알고 있다"))
+        #     2, _translate("Dialog", "물은 답을 알고 있다"))
         # self.treeWidget.topLevelItem(0).setText(
-        #     3, _translate("MainWindow", "2019-12-04"))
+        #     3, _translate("Dialog", "2019-12-04"))
         # self.treeWidget.topLevelItem(0).setText(
-        #     4, _translate("MainWindow", "2019-12-07"))
+        #     4, _translate("Dialog", "2019-12-07"))
         # self.treeWidget.topLevelItem(0).setText(
-        #     5, _translate("MainWindow", "0"))
+        #     5, _translate("Dialog", "0"))
         # self.treeWidget.topLevelItem(0).setText(
-        #     6, _translate("MainWindow", "자"))
+        #     6, _translate("Dialog", "자"))
         # self.treeWidget.setSortingEnabled(__sortingEnabled)
 
-        self.treeWidget_2.headerItem().setText(0, _translate("MainWindow", "No"))
-        self.treeWidget_2.headerItem().setText(1, _translate("MainWindow", "책 번호"))
-        self.treeWidget_2.headerItem().setText(2, _translate("MainWindow", "제목"))
-        self.treeWidget_2.headerItem().setText(3, _translate("MainWindow", "저자"))
-        self.treeWidget_2.headerItem().setText(4, _translate("MainWindow", "예약일자"))
-        self.treeWidget_2.headerItem().setText(5, _translate("MainWindow", "예약상태"))
-        self.treeWidget_2.headerItem().setText(6, _translate("MainWindow", "대여가능 수"))
+        self.treeWidget_2.headerItem().setText(0, _translate("Dialog", "No"))
+        self.treeWidget_2.headerItem().setText(1, _translate("Dialog", "책 번호"))
+        self.treeWidget_2.headerItem().setText(2, _translate("Dialog", "제목"))
+        self.treeWidget_2.headerItem().setText(3, _translate("Dialog", "저자"))
+        self.treeWidget_2.headerItem().setText(4, _translate("Dialog", "예약일자"))
+        self.treeWidget_2.headerItem().setText(5, _translate("Dialog", "예약상태"))
+        self.treeWidget_2.headerItem().setText(6, _translate("Dialog", "대여가능 수"))
 
-        self.label_12.setText(_translate("MainWindow", "예약현황"))
+        self.label_12.setText(_translate("Dialog", "예약현황"))
         
-        # self.groupBox_2.setTitle(_translate("MainWindow", "리 관리"))
-        # self.pushButton_2.setText(_translate("MainWindow", "대출"))
-        # self.pushButton_3.setText(_translate("MainWindow", "예약"))
+        # self.groupBox_2.setTitle(_translate("Dialog", "리 관리"))
+        # self.pushButton_2.setText(_translate("Dialog", "대출"))
+        # self.pushButton_3.setText(_translate("Dialog", "예약"))
         
-        self.btnReturn.setText(_translate("MainWindow", "반납"))
-        self.btnExtend.setText(_translate("MainWindow", "연장"))
-        self.btnRental.setText(_translate("MainWindow", "대여"))
+        self.btnReturn.setText(_translate("Dialog", "반납"))
+        self.btnExtend.setText(_translate("Dialog", "연장"))
+        self.btnRental.setText(_translate("Dialog", "대여"))
 
         self.setEvent()
 
@@ -303,7 +295,7 @@ class UserInqueryDialog(object):
         pass
 
     def show_alert(self, title, message):
-        msgbox = QtWidgets.QMessageBox(self.MainWindow)
+        msgbox = QtWidgets.QMessageBox(self.Dialog)
         msgbox.setIcon(QtWidgets.QMessageBox.Warning)
         msgbox.setText(title)
         msgbox.setInformativeText(message)
@@ -378,7 +370,7 @@ class UserInqueryDialog(object):
                 book_no = items[0].text(1)
                 title = items[0].text(2)
 
-                messagebox = QtWidgets.QMessageBox(self.MainWindow)
+                messagebox = QtWidgets.QMessageBox(self.Dialog)
                 messagebox.setText("도서 대여")
                 messagebox.setInformativeText("'%s'\n\n대여처리 하시겠습니까?" % title)
                 messagebox.setStandardButtons(
@@ -404,7 +396,7 @@ class UserInqueryDialog(object):
                 book_unique_no = items[0].text(1)
                 title = items[0].text(2)
 
-                messagebox = QtWidgets.QMessageBox(self.MainWindow)
+                messagebox = QtWidgets.QMessageBox(self.Dialog)
                 messagebox.setText("도서 반납")
                 messagebox.setInformativeText("'%s'\n\n반납처리 하시겠습니까?" % title)
                 messagebox.setStandardButtons(
@@ -425,7 +417,7 @@ class UserInqueryDialog(object):
             if(items):
                 title = items[0].text(2)
                 rental_no = items[0].text(0)
-                messagebox = QtWidgets.QMessageBox(self.MainWindow)
+                messagebox = QtWidgets.QMessageBox(self.Dialog)
                 messagebox.setText("도서 연장")
                 messagebox.setInformativeText("'%s'\n\n연장처리 하시겠습니까?" % title)
                 messagebox.setStandardButtons(
@@ -439,11 +431,11 @@ class UserInqueryDialog(object):
 
 
     def setEvent(self):
-        self.pushButton.clicked.connect(self.btnInqueryClicked)  # 조회
+        self.pushButton.clicked.connect(lambda: self.btnInqueryClicked())  # 조회
         # self.pushButton_3.clicked.connect() # 예약
-        self.btnReturn.clicked.connect(self.btnReturnClicked)
-        self.btnExtend.clicked.connect(self.btnExtendClicked)
-        self.btnRental.clicked.connect(self.btnRentalClicked)  # 대출
+        self.btnReturn.clicked.connect(lambda: self.btnReturnClicked())
+        self.btnExtend.clicked.connect(lambda: self.btnExtendClicked())
+        self.btnRental.clicked.connect(lambda: self.btnRentalClicked())  # 대출
 
     def addItem(self, tree):
         item = QtWidgets.QTreeWidgetItem(tree)
@@ -454,8 +446,8 @@ if __name__ == "__main__":
     import sys
     import dbmanager
     app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
+    Dialog = QtWidgets.QDialog()
     ui = UserInqueryDialog(dbmanager.DBManager())
-    ui.setupUi(MainWindow)
-    MainWindow.show()
+    ui.setupUi(Dialog)
+    Dialog.show()
     sys.exit(app.exec_())

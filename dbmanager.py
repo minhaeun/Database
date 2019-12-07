@@ -136,11 +136,21 @@ class DBManager():
         return self.selects(sql)
 
      
-    def search_book(self, title):
+    def search_book(self, title, size, page):
         sql = '''
-            select book_detail.book_no, area.category, book_detail.title, book_detail.author, book_detail.publisher, book_detail.published_date
-            from book_detail, area
-            where area.area_no = book_detail.area_no
-                and book_detail.title like '%s'
+            select
+                book_detail.*,
+                count(if(book.condition='대여가능' and book.book_unique_no,1,NULL)) count
+            from
+                book_detail
+            left outer join
+                book
+            on
+                book.book_no = book_detail.book_no
+            where
+                book_detail.title like %s
+            group by book_detail.book_no
+            limit %s, %s
+            ;
         '''
-        return self.selects(sql, "%"+title+"%")
+        return self.selects(sql, "%"+title+"%", size * (page-1), size)

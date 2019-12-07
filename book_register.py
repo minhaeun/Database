@@ -10,7 +10,11 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from dbmanager import DBManager
 
-class Ui_Dialog(object):
+
+class BookRegisterDialog(object):
+    def __init__(self, dbmanager):
+        self.dbmanager = dbmanager
+
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(523, 521)
@@ -39,7 +43,7 @@ class Ui_Dialog(object):
         font.setFamily("나눔고딕")
         self.label_27.setFont(font)
         self.label_27.setText("")
-        self.label_27.setPixmap(QtGui.QPixmap("image/open-book.png"))
+        self.label_27.setPixmap(QtGui.QPixmap("ui/image/open-book.png"))
         self.label_27.setScaledContents(True)
         self.label_27.setObjectName("label_27")
         self.label_4 = QtWidgets.QLabel(Dialog)
@@ -126,13 +130,14 @@ class Ui_Dialog(object):
 
     def btnPushButtonClicked(self):
         dbmanager = DBManager()
-        area_no = 1 #self.comboBox.text()
+        area_no = 1  # self.comboBox.text()
         title = self.lineEdit.text()
         publisher = self.lineEdit_3.text()
         published_date = self.lineEdit_4.text()
         author = self.lineEdit_2.text()
 
-        result = dbmanager.request_book(title, area_no, publisher, published_date, author)
+        result = dbmanager.request_book(
+            title, area_no, publisher, published_date, author)
         print(result)
 
 
