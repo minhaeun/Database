@@ -177,7 +177,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>../../Downloads/user.png</pixmap>
+     <pixmap>image/user2.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -196,7 +196,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>../../Downloads/login.png</pixmap>
+     <pixmap>image/login.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -215,7 +215,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>../../Downloads/search-user-interface-symbol.png</pixmap>
+     <pixmap>image/search-user-interface-symbol.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -253,7 +253,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>../../Downloads/search-of-knowledge.png</pixmap>
+     <pixmap>image/search-of-knowledge.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -272,7 +272,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>../../Downloads/book (1).png</pixmap>
+     <pixmap>image/book (1).png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -291,7 +291,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>../../Downloads/clipboard.png</pixmap>
+     <pixmap>image/clipboard.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -310,7 +310,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>../../Downloads/out-of-time.png</pixmap>
+     <pixmap>image/out-of-time.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -353,7 +353,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>../../Downloads/KakaoTalk_20191206_212411819.png</pixmap>
+     <pixmap>image/KakaoTalk_20191206_212411819.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
