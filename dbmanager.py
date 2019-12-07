@@ -4,7 +4,7 @@ import pymysql
 class DBManager():
     def __init__(self):
         self.conn = pymysql.connect(
-            host='localhost', port=3306, user='root', passwd='', db='library', autocommit=True)
+            host='192.168.0.18', port=3306, user='root', passwd='', db='library', autocommit=True)
 
     def select(self, query, *args):
         cursor = self.conn.cursor(pymysql.cursors.DictCursor)
@@ -20,7 +20,7 @@ class DBManager():
 
     def insert(self, query, *args):
         cursor = self.conn.cursor(pymysql.cursors.DictCursor)
-        cursor.execute(query, args)
+        return cursor.execute(query, args)
         # cursor.commit()
 
     def inquery_info(self, userid):
@@ -127,7 +127,7 @@ class DBManager():
         sql = '''
             insert into book_detail (area_no, title, publisher, published_date, author) VALUES (%s, %s, %s, %s, %s )
         '''
-        self.insert(sql, area_no, title, publisher, published_date, author)
+        return self.insert(sql, area_no, title, publisher, published_date, author)
 
     def inquery_category(self):
         sql = '''
