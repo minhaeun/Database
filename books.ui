@@ -31,6 +31,11 @@
       <height>21</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>나눔고딕</family>
+     </font>
+    </property>
     <property name="text">
      <string>상태 :</string>
     </property>
@@ -47,6 +52,11 @@
       <height>21</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>나눔고딕</family>
+     </font>
+    </property>
     <property name="text">
      <string>카테고리 :</string>
     </property>
@@ -62,6 +72,11 @@
       <width>81</width>
       <height>21</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>나눔고딕</family>
+     </font>
     </property>
     <property name="text">
      <string>등록번호 :</string>
