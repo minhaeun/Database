@@ -115,7 +115,22 @@ class DBManager():
                 update reservation set `state`='예약완료' where reservation_no=%s
             '''
             self.insert(sql, reservation_no)
-            return 0;
+            return 0
         else:
             return -1
         # book_no로 대여 안되어있는 book_unique_no 하나 찾아서 대여처리
+
+    def request_book(self, title, area_no, publisher, published_date, author):
+        sql = '''
+            insert into book_detail (area_no, title, publisher, published_date, author) VALUES (%s, %s, %s, %s, %s )
+        '''
+        self.insert(sql, area_no, title, publisher, published_date, author)
+
+    def inquery_category(self)
+        sql = '''
+            select * from area
+        '''
+        return self.selects(sql)
+
+     
+
