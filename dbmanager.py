@@ -27,12 +27,11 @@ class DBManager():
         sql = '''
             select 
                 user.*,
-                count(1) total,
-                count(if(datediff(due_date,now())<0,1,null)) overdue
+                count(if(return_date is null,1,null)) total,
+                count(if((datediff(due_date,now())<0) and (return_date is null),1,null)) overdue
             from user,rental
             where
                 user.user_no=rental.user_no
-                and rental.return_date is null
                 and user.user_id=%s
             group by user.user_no;
         '''
