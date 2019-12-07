@@ -8,7 +8,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from dbmanager import DBManager
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -118,6 +118,22 @@ class Ui_Dialog(object):
         self.comboBox.setItemText(2, _translate("Dialog", "소설"))
         self.comboBox.setItemText(3, _translate("Dialog", "기타"))
         self.label_3.setText(_translate("Dialog", "저자"))
+
+        self.btnConnect()
+
+    def btnConnect(self):
+        self.pushButton.clicked.connect(self.btnPushButtonClicked)
+
+    def btnPushButtonClicked(self):
+        dbmanager = DBManager()
+        area_no = 1 #self.comboBox.text()
+        title = self.lineEdit.text()
+        publisher = self.lineEdit_3.text()
+        published_date = self.lineEdit_4.text()
+        author = self.lineEdit_2.text()
+
+        result = dbmanager.request_book(title, area_no, publisher, published_date, author)
+        print(result)
 
 
 if __name__ == "__main__":
