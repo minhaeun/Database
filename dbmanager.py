@@ -118,3 +118,12 @@ class DBManager():
         else:
             return -1
         # book_no로 대여 안되어있는 book_unique_no 하나 찾아서 대여처리
+        
+    def search_book(self, title):
+        sql = '''
+            select book_detail.book_no, area.category, book_detail.title, book_detail.author, book_detail.publisher, book_detail.published_date
+            from book_detail, area
+            where area.area_no = book_detail.area_no
+                and book_detail.title like '%s'
+        '''
+        return self.selects(sql, "%"+title+"%")
