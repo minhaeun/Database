@@ -8,16 +8,16 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from DBManager import DBManager
-import search
 
-
-class Ui_MainWindow(object):
-    dbmanager = DBManager()
+class UserInqueryDialog(object):
+    dbmanager = None
     page_rental = 1
     page_size = 10
     userid = None
     userno = None
+
+    def __init__(self, DBManager):
+        self.dbmanager = DBManager
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -339,7 +339,6 @@ class Ui_MainWindow(object):
                 QProgressBar::chunk {
                     background-color: %s;
                     border-radius:4px;
-                    /*width: 20px;*/
                 }
             '''
             if(row['overdue'] <= 0):
@@ -388,7 +387,9 @@ class Ui_MainWindow(object):
                 messagebox.setIcon(QtWidgets.QMessageBox.Question)
                 ret = messagebox.exec()
                 if(ret == QtWidgets.QMessageBox.Ok):
-                    self.dbmanager.rental_book(reservation_no, userno, book_no)
+                    result = self.dbmanager.rental_book(reservation_no, userno, book_no)
+                    if(result == -1):
+                        self.show_alert("도서대여", "대여 가능한 책이 없습니다.")
                     self.inquery_info()
                     self.inquery_rental()
                     self.inquery_reservation()
@@ -415,7 +416,6 @@ class Ui_MainWindow(object):
                     self.dbmanager.return_book(rental_no, book_unique_no)
                     self.inquery_info()
                     self.inquery_rental()
-        pass
 
     def btnExtendClicked(self):
         userid = self.userid
@@ -452,9 +452,10 @@ class Ui_MainWindow(object):
 
 if __name__ == "__main__":
     import sys
+    import dbmanager
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
+    ui = UserInqueryDialog(dbmanager.DBManager())
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())

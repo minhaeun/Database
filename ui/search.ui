@@ -128,7 +128,7 @@
     </font>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_2">
+  <widget class="QLineEdit" name="txtPage">
    <property name="geometry">
     <rect>
      <x>280</x>
@@ -141,7 +141,7 @@
     <string>1</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_3">
+  <widget class="QLabel" name="lbPage">
    <property name="geometry">
     <rect>
      <x>340</x>

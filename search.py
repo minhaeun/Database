@@ -10,10 +10,15 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_Dialog(object):
+class SearchDialog(object):
+    def __init__(self, dbmanager):
+        self.dbmanager = dbmanager
+        print("dbmanager 등록")
+        print(dbmanager)
+
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(1643, 834)
+        Dialog.resize(646, 348)
         self.pushButton = QtWidgets.QPushButton(Dialog)
         self.pushButton.setGeometry(QtCore.QRect(330, 30, 71, 32))
         font = QtGui.QFont()
@@ -47,20 +52,17 @@ class Ui_Dialog(object):
         font.setFamily("나눔고딕")
         self.lineEdit.setFont(font)
         self.lineEdit.setObjectName("lineEdit")
-        self.horizontalSlider = QtWidgets.QSlider(Dialog)
-        self.horizontalSlider.setGeometry(QtCore.QRect(280, 310, 91, 22))
-        self.horizontalSlider.setMaximum(10)
-        self.horizontalSlider.setOrientation(QtCore.Qt.Horizontal)
-        self.horizontalSlider.setTickPosition(QtWidgets.QSlider.NoTicks)
-        self.horizontalSlider.setTickInterval(1000)
-        self.horizontalSlider.setObjectName("horizontalSlider")
-        self.label_2 = QtWidgets.QLabel(Dialog)
-        self.label_2.setGeometry(QtCore.QRect(300, 330, 58, 16))
-        self.label_2.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_2.setObjectName("label_2")
+        self.txtPage = QtWidgets.QLineEdit(Dialog)
+        self.txtPage.setGeometry(QtCore.QRect(280, 308, 51, 21))
+        self.txtPage.setObjectName("txtPage")
+        self.lbPage = QtWidgets.QLabel(Dialog)
+        self.lbPage.setGeometry(QtCore.QRect(340, 310, 58, 16))
+        self.lbPage.setObjectName("lbPage")
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
+
+        self.addBtnListener()
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
@@ -72,14 +74,25 @@ class Ui_Dialog(object):
         self.treeWidget.headerItem().setText(3, _translate("Dialog", "출판사"))
         self.treeWidget.headerItem().setText(4, _translate("Dialog", "대출가능 수"))
         self.label.setText(_translate("Dialog", "서적이름"))
-        self.label_2.setText(_translate("Dialog", "1 / 1"))
+        self.txtPage.setText(_translate("Dialog", "1"))
+        self.lbPage.setText(_translate("Dialog", "/ 10"))
+    
+    def btnSearchClicked(self):
+        print("asdf")
+        title = self.lineEdit.text()
+        print("asdf")
+        result = self.dbmanager.search_book(title)
+        print(result)
 
+    def addBtnListener(self):
+        print("af???")
+        self.pushButton.clicked.connect(self.btnSearchClicked)
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     Dialog = QtWidgets.QDialog()
-    ui = Ui_Dialog()
+    ui = SearchDialog(None)
     ui.setupUi(Dialog)
     Dialog.show()
     sys.exit(app.exec_())

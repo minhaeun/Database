@@ -8,12 +8,17 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from dbmanager import DBManager
+from search import SearchDialog
 
 class Ui_MainWindow(object):
+    def __init__(self):
+        self.dbmanager = DBManager()
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(774, 707)
+        self.MainWindow = MainWindow
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
@@ -159,6 +164,35 @@ class Ui_MainWindow(object):
         self.pushButton_6.setText(_translate("MainWindow", "연체 관리"))
         self.label_10.setText(_translate("MainWindow", "KU Library"))
 
+        self.addBtnListener()
+
+    def btnRegisterClicked(self):
+        dialog = QtWidgets.QDialog(self.MainWindow)
+        dialog_ui = SearchDialog(self.dbmanager)
+        dialog_ui.setupUi(dialog)
+        dialog.setModal(True)
+        dialog.show()
+        pass
+
+    def btnInqueryUserClicked(self):
+        pass
+
+    def btnSearchClicked(self):
+        pass
+
+    def btnBookRegisterClicked(self):
+        pass
+
+    def btnManageClicked(self):
+        pass
+
+    def addBtnListener(self):
+        self.pushButton.clicked.connect(self.btnRegisterClicked) # 회원등록
+        self.pushButton.clicked.connect(self.btnInqueryUserClicked) # 회원조회
+        self.pushButton.clicked.connect(self.btnSearchClicked) # 서적검색
+        self.pushButton.clicked.connect(self.btnBookRegisterClicked) # 서적등록
+        self.pushButton.clicked.connect(self.btnBookRegisterClicked) # 서적 신청
+        self.pushButton.clicked.connect(self.btnManageClicked) # 연체 관리
 
 if __name__ == "__main__":
     import sys

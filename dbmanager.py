@@ -97,7 +97,11 @@ class DBManager():
     def rental_book(self, reservation_no, user_no, book_no):
         sql = '''
             select book_unique_no from book
-                where book_no = %s order by book_no desc limit 1;
+            where 
+                book_no = %s
+                and `condition`='대여가능'
+            order by book_unique_no asc
+            limit 1;
         '''
         row = self.select(sql, book_no)
         if(row is not None):
@@ -125,7 +129,7 @@ class DBManager():
         '''
         self.insert(sql, area_no, title, publisher, published_date, author)
 
-    def inquery_category(self)
+    def inquery_category(self):
         sql = '''
             select * from area
         '''
