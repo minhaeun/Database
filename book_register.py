@@ -9,7 +9,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from dbmanager import DBManager
-
+import datetime
 
 class BookRegisterDialog(object):
     def __init__(self, dbmanager):
@@ -18,12 +18,14 @@ class BookRegisterDialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(523, 521)
+        self.Dialog = Dialog
         self.lineEdit = QtWidgets.QLineEdit(Dialog)
         self.lineEdit.setGeometry(QtCore.QRect(160, 210, 191, 31))
         font = QtGui.QFont()
         font.setFamily("나눔고딕")
         self.lineEdit.setFont(font)
         self.lineEdit.setObjectName("lineEdit")
+        self.lineEdit.setPlaceholderText("Title")
         self.label = QtWidgets.QLabel(Dialog)
         self.label.setGeometry(QtCore.QRect(210, 100, 101, 31))
         font = QtGui.QFont()
@@ -58,13 +60,14 @@ class BookRegisterDialog(object):
         font.setFamily("나눔고딕")
         self.lineEdit_3.setFont(font)
         self.lineEdit_3.setObjectName("lineEdit_3")
+        self.lineEdit_3.setPlaceholderText("Publisher")
         self.label_5 = QtWidgets.QLabel(Dialog)
         self.label_5.setGeometry(QtCore.QRect(90, 300, 64, 15))
         font = QtGui.QFont()
         font.setFamily("나눔고딕")
         self.label_5.setFont(font)
         self.label_5.setObjectName("label_5")
-        self.lineEdit_4 = QtWidgets.QLineEdit(Dialog)
+        self.lineEdit_4 = QtWidgets.QDateEdit(Dialog)
         self.lineEdit_4.setGeometry(QtCore.QRect(160, 290, 191, 31))
         font = QtGui.QFont()
         font.setFamily("나눔고딕")
@@ -88,12 +91,9 @@ class BookRegisterDialog(object):
         font.setFamily("나눔고딕")
         self.comboBox.setFont(font)
         self.comboBox.setObjectName("comboBox")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
         self.lineEdit_2 = QtWidgets.QLineEdit(Dialog)
         self.lineEdit_2.setGeometry(QtCore.QRect(160, 330, 191, 31))
+        self.lineEdit_2.setPlaceholderText("Author")
         font = QtGui.QFont()
         font.setFamily("나눔고딕")
         self.lineEdit_2.setFont(font)
@@ -108,44 +108,77 @@ class BookRegisterDialog(object):
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
+        self.initEdits()
+
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.label.setText(_translate("Dialog", "도서등록"))
+        self.label.setText(_translate("Dialog", "서적등록"))
         self.label_2.setText(_translate("Dialog", "도서명"))
         self.label_4.setText(_translate("Dialog", "출판사"))
         self.label_5.setText(_translate("Dialog", "출간일자"))
         self.pushButton.setText(_translate("Dialog", "등록"))
         self.label_8.setText(_translate("Dialog", "도서구분"))
-        self.comboBox.setItemText(0, _translate("Dialog", "경제, 경영"))
-        self.comboBox.setItemText(1, _translate("Dialog", "여행"))
-        self.comboBox.setItemText(2, _translate("Dialog", "소설"))
-        self.comboBox.setItemText(3, _translate("Dialog", "기타"))
         self.label_3.setText(_translate("Dialog", "저자"))
 
         self.btnConnect()
+        self.getCategories()
+
+    def getCategories(self):
+        rows = self.dbmanager.inquery_category()
+        if(rows):
+            for row in rows:
+                area_no = row['area_no']
+                category = row['category']
+
+                self.comboBox.addItem(category,'adfs')
+                self.comboBox.setItemData(self.comboBox.count()-1, QtCore.QVariant(area_no))
 
     def btnConnect(self):
-        self.pushButton.clicked.connect(self.btnPushButtonClicked)
+        self.pushButton.clicked.connect(lambda:self.btnPushButtonClicked())
 
     def btnPushButtonClicked(self):
-        dbmanager = DBManager()
-        area_no = 1  # self.comboBox.text()
+        area_no = self.comboBox.currentData()
         title = self.lineEdit.text()
         publisher = self.lineEdit_3.text()
         published_date = self.lineEdit_4.text()
         author = self.lineEdit_2.text()
 
-        result = dbmanager.request_book(
+        result = self.dbmanager.request_book(
             title, area_no, publisher, published_date, author)
-        print(result)
+            
+        if(result == 1):
+            self.show_info("서적등록", "서적 등록 완료")
+            self.initEdits()
+        else:
+            self.show_alert("서적등록", "서적 등록 실패")
 
+    def initEdits(self):
+        self.lineEdit.setText("")
+        self.lineEdit_2.setText("")
+        self.lineEdit_3.setText("")
+        self.lineEdit_4.setDate(datetime.datetime.now())
+    def show_alert(self, title, message):
+        msgbox = QtWidgets.QMessageBox(self.Dialog)
+        msgbox.setIcon(QtWidgets.QMessageBox.Warning)
+        msgbox.setText(title)
+        msgbox.setInformativeText(message)
+        msgbox.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        return msgbox.exec()
+
+    def show_info(self, title, message):
+        msgbox = QtWidgets.QMessageBox(self.Dialog)
+        msgbox.setIcon(QtWidgets.QMessageBox.Information)
+        msgbox.setText(title)
+        msgbox.setInformativeText(message)
+        msgbox.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        return msgbox.exec()
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     Dialog = QtWidgets.QDialog()
-    ui = Ui_Dialog()
+    ui = Ui_Dialog(None)
     ui.setupUi(Dialog)
     Dialog.show()
     sys.exit(app.exec_())

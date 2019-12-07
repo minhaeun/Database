@@ -27,12 +27,12 @@ class DBManager():
         sql = '''
             select 
                 user.*,
-                count(if(return_date is null,1,null)) total,
+                count(if(rental_date is not null and return_date is null,1,null)) total,
                 count(if((datediff(due_date,now())<0) and (return_date is null),1,null)) overdue
-            from user,rental
-            where
-                user.user_no=rental.user_no
-                and user.user_id=%s
+            from user
+            left outer join rental
+                on user.user_no = rental.user_no
+            where user.user_id=%s
             group by user.user_no;
         '''
         return self.select(sql, userid)
@@ -139,6 +139,7 @@ class DBManager():
     def search_book(self, title, size, page):
         sql = '''
             select
+                (select count(1) from book_detail where title like %s) total,
                 book_detail.*,
                 count(if(book.condition='대여가능' and book.book_unique_no,1,NULL)) count
             from
@@ -153,4 +154,20 @@ class DBManager():
             limit %s, %s
             ;
         '''
-        return self.selects(sql, "%"+title+"%", size * (page-1), size)
+        return self.selects(sql, "%"+title+"%","%"+title+"%", size * (page-1), size)
+
+    def register_check(self, user_id):
+        sql = '''
+            select count(1) count from user where user_id=%s
+        '''
+        return self.select(sql, user_id)
+        pass
+
+    def register(self, user_id, user_name, email, phonenum):
+        sql = '''
+            insert into user
+                (user_id, user_name, email, phonenum)
+                    VALUES
+                (%s, %s, %s, %s)
+        '''
+        return self.insert(sql, user_id, user_name, email, phonenum)

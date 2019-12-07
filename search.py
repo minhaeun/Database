@@ -8,9 +8,14 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import math
 
 
 class SearchDialog(object):
+    page = 1
+    maxPage = 1
+    title = None
+
     def __init__(self, dbmanager):
         self.dbmanager = dbmanager
 
@@ -18,12 +23,6 @@ class SearchDialog(object):
         Dialog.setObjectName("Dialog")
         Dialog.resize(646, 348)
         self.Dialog = Dialog
-        self.pushButton = QtWidgets.QPushButton(Dialog)
-        self.pushButton.setGeometry(QtCore.QRect(330, 30, 71, 32))
-        font = QtGui.QFont()
-        font.setFamily("나눔고딕")
-        self.pushButton.setFont(font)
-        self.pushButton.setObjectName("pushButton")
         self.treeWidget = QtWidgets.QTreeWidget(Dialog)
         self.treeWidget.setGeometry(QtCore.QRect(30, 80, 601, 221))
         font = QtGui.QFont()
@@ -64,7 +63,6 @@ class SearchDialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.pushButton.setText(_translate("Dialog", "조회"))
         self.treeWidget.headerItem().setText(0, _translate("Dialog", "No"))
         self.treeWidget.headerItem().setText(1, _translate("Dialog", "제목"))
         self.treeWidget.headerItem().setText(2, _translate("Dialog", "저자"))
@@ -74,7 +72,8 @@ class SearchDialog(object):
         self.txtPage.setText(_translate("Dialog", "1"))
         self.lbPage.setText(_translate("Dialog", "/ 10"))
 
-        self.pushButton.clicked.connect(
+        self.txtPage.returnPressed.connect(lambda: self.txtPageChanged())
+        self.lineEdit.returnPressed.connect(
             lambda: self.btnSearchClicked())
 
     def show_alert(self, title, message):
@@ -89,18 +88,30 @@ class SearchDialog(object):
         self.page = 1
         title = self.lineEdit.text()
         self.title = title
-
         self.search_book()
 
+    def txtPageChanged(self):
+        try:
+            if(self.title is not None):
+                self.page = int(self.txtPage.text())
+                if(self.page > 0):
+                    self.search_book()
+        except:
+            pass
+
     def search_book(self):
+        self.treeWidget.clear()
         page = self.page
         title = self.title
-        result = self.dbmanager.search_book(title, 10, page) # 한페이지에 10개씩
+        pagesize = 10
+
+        result = self.dbmanager.search_book(title, pagesize, page)  # 한페이지에 10개씩
         if(len(result) == 0):
             self.show_alert("검색 결과", "검색 결과가 없습니다.")
         else:
             for row in result:
                 item = QtWidgets.QTreeWidgetItem(self.treeWidget)
+                total = row['total']
                 book_no = str(row['book_no'])
                 title = row['title']
                 author = row['author']
@@ -111,7 +122,10 @@ class SearchDialog(object):
                 item.setText(2, author)
                 item.setText(3, publisher)
                 item.setText(4, count)
-                
+
+                totalPage = math.ceil(total / pagesize)
+                self.txtPage.setText(str(page))
+                self.lbPage.setText("/ %s"%totalPage)
 
 
 if __name__ == "__main__":
