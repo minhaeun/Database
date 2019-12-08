@@ -229,6 +229,7 @@ class DBManager():
         '''
         return self.insert(sql, book_unique_no)
 
+
     def overdue(self):
         sql = '''
             select user.user_no, user.user_name, count(1) count
@@ -251,3 +252,13 @@ class DBManager():
             and rental.return_date is null;
         '''
         return self.selects(sql,user_no)
+
+    def reservation_book(self, user_no, book_no):
+        sql = '''
+            insert into reservation
+                (user_no, book_no, reservation_date, state)
+            values
+                (%s, %s, CURRENT_TIMESTAMP, '예약중')
+        '''
+        return self.insert(sql, user_no, book_no)
+

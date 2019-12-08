@@ -65,15 +65,11 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.label_2.setFont(font)
-        self.label_2.setObjectName("label_2")
-        self.pushButton_5 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_5.setGeometry(QtCore.QRect(397, 560, 91, 31))
+        self.label_2.setObjectName("label_2") 
         font = QtGui.QFont()
-        font.setFamily("나눔고딕")
-        self.pushButton_5.setFont(font)
-        self.pushButton_5.setObjectName("pushButton_5")
+        font.setFamily("나눔고딕") 
         self.pushButton_6 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_6.setGeometry(QtCore.QRect(530, 560, 91, 31))
+        self.pushButton_6.setGeometry(QtCore.QRect(397, 560, 91, 31))
         font = QtGui.QFont()
         font.setFamily("나눔고딕")
         self.pushButton_6.setFont(font)
@@ -111,21 +107,15 @@ class Ui_MainWindow(object):
         self.label_7 = QtWidgets.QLabel(self.centralwidget)
         self.label_7.setGeometry(QtCore.QRect(270, 460, 71, 71))
         self.label_7.setText("")
-        self.label_7.setPixmap(QtGui.QPixmap("ui/image/book (1).png"))
+        self.label_7.setPixmap(QtGui.QPixmap("ui/image/clipboard.png"))
         self.label_7.setScaledContents(True)
         self.label_7.setObjectName("label_7")
         self.label_8 = QtWidgets.QLabel(self.centralwidget)
         self.label_8.setGeometry(QtCore.QRect(410, 460, 81, 81))
         self.label_8.setText("")
-        self.label_8.setPixmap(QtGui.QPixmap("ui/image/clipboard.png"))
+        self.label_8.setPixmap(QtGui.QPixmap("ui/image/out-of-time.png"))
         self.label_8.setScaledContents(True)
         self.label_8.setObjectName("label_8")
-        self.label_9 = QtWidgets.QLabel(self.centralwidget)
-        self.label_9.setGeometry(QtCore.QRect(540, 460, 71, 71))
-        self.label_9.setText("")
-        self.label_9.setPixmap(QtGui.QPixmap("ui/image/out-of-time.png"))
-        self.label_9.setScaledContents(True)
-        self.label_9.setObjectName("label_9")
         self.label_10 = QtWidgets.QLabel(self.centralwidget)
         self.label_10.setGeometry(QtCore.QRect(230, 60, 461, 101))
         font = QtGui.QFont()
@@ -163,7 +153,6 @@ class Ui_MainWindow(object):
         self.pushButton_4.setText(_translate("MainWindow", "서적 등록"))
         self.label.setText(_translate("MainWindow", "회원 관리"))
         self.label_2.setText(_translate("MainWindow", "서적 관리"))
-        self.pushButton_5.setText(_translate("MainWindow", "서적 신청"))
         self.pushButton_6.setText(_translate("MainWindow", "연체 관리"))
         self.label_10.setText(_translate("MainWindow", "KU Library"))
 
@@ -212,7 +201,6 @@ class Ui_MainWindow(object):
         self.pushButton_2.clicked.connect(self.btnInqueryUserClicked) # 회원조회
         self.pushButton_3.clicked.connect(self.btnSearchClicked) # 서적검색
         self.pushButton_4.clicked.connect(self.btnBookRegisterClicked) # 서적등록
-        self.pushButton_5.clicked.connect(self.btnBookRequestClicked) # 서적 신청
         self.pushButton_6.clicked.connect(self.btnManageClicked) # 연체 관리
 
 if __name__ == "__main__":
