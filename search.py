@@ -8,6 +8,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from search_detail import SearchDetailDialog
 import math
 
 
@@ -62,7 +63,7 @@ class SearchDialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        Dialog.setWindowTitle(_translate("Dialog", "KU Library"))
         self.treeWidget.headerItem().setText(0, _translate("Dialog", "No"))
         self.treeWidget.headerItem().setText(1, _translate("Dialog", "제목"))
         self.treeWidget.headerItem().setText(2, _translate("Dialog", "저자"))
@@ -75,12 +76,22 @@ class SearchDialog(object):
         self.txtPage.returnPressed.connect(lambda: self.txtPageChanged())
         self.lineEdit.returnPressed.connect(
             lambda: self.btnSearchClicked())
+        self.treeWidget.itemDoubleClicked.connect(lambda item: self.itemDoubleClicked(item))
+
+    def itemDoubleClicked(self, item):
+        book_no = item.text(0) # book_no
+        
+        dialog = QtWidgets.QDialog(self.Dialog)
+        dialog_ui = SearchDetailDialog(self.dbmanager, book_no)
+        dialog_ui.setupUi(dialog)
+        dialog.setModal(True)
+        dialog.show()
 
     def show_alert(self, title, message):
         msgbox = QtWidgets.QMessageBox(self.Dialog)
         msgbox.setIcon(QtWidgets.QMessageBox.Warning)
-        msgbox.setText(title)
-        msgbox.setInformativeText(message)
+        msgbox.setWindowTitle(title)
+        msgbox.setText(message)
         msgbox.setStandardButtons(QtWidgets.QMessageBox.Ok)
         return msgbox.exec()
 
@@ -126,13 +137,3 @@ class SearchDialog(object):
                 totalPage = math.ceil(total / pagesize)
                 self.txtPage.setText(str(page))
                 self.lbPage.setText("/ %s"%totalPage)
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDialog()
-    ui = SearchDialog(None)
-    ui.setupUi(Dialog)
-    Dialog.show()
-    sys.exit(app.exec_())

@@ -112,7 +112,7 @@ class BookRegisterDialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        Dialog.setWindowTitle(_translate("Dialog", "KU Library"))
         self.label.setText(_translate("Dialog", "서적등록"))
         self.label_2.setText(_translate("Dialog", "도서명"))
         self.label_4.setText(_translate("Dialog", "출판사"))
@@ -161,24 +161,16 @@ class BookRegisterDialog(object):
     def show_alert(self, title, message):
         msgbox = QtWidgets.QMessageBox(self.Dialog)
         msgbox.setIcon(QtWidgets.QMessageBox.Warning)
-        msgbox.setText(title)
-        msgbox.setInformativeText(message)
+        msgbox.setWindowTitle(title)
+        msgbox.setText(message)
         msgbox.setStandardButtons(QtWidgets.QMessageBox.Ok)
         return msgbox.exec()
 
     def show_info(self, title, message):
         msgbox = QtWidgets.QMessageBox(self.Dialog)
         msgbox.setIcon(QtWidgets.QMessageBox.Information)
-        msgbox.setText(title)
-        msgbox.setInformativeText(message)
+        msgbox.setWindowTitle(title)
+        msgbox.setText(message)
         msgbox.setStandardButtons(QtWidgets.QMessageBox.Ok)
         return msgbox.exec()
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDialog()
-    ui = Ui_Dialog(None)
-    ui.setupUi(Dialog)
-    Dialog.show()
-    sys.exit(app.exec_())
+ 

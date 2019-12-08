@@ -38,17 +38,8 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
+        Form.setWindowTitle(_translate("Form", "KU Library"))
         self.label_3.setText(_translate("Form", "상태 :"))
         self.label_2.setText(_translate("Form", "카테고리 :"))
         self.label.setText(_translate("Form", "등록번호 :"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Form = QtWidgets.QWidget()
-    ui = Ui_Form()
-    ui.setupUi(Form)
-    Form.show()
-    sys.exit(app.exec_())
+ 

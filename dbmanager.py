@@ -4,7 +4,7 @@ import pymysql
 class DBManager():
     def __init__(self):
         self.conn = pymysql.connect(
-            host='192.168.0.18', port=3306, user='root', passwd='', db='library', autocommit=True)
+            host='192.168.29.165', port=3306, user='root', passwd='', db='library', autocommit=True)
 
     def select(self, query, *args):
         cursor = self.conn.cursor(pymysql.cursors.DictCursor)
@@ -74,7 +74,7 @@ class DBManager():
             ;
         '''
         return self.selects(sql, userid)
-    
+
     def return_book(self, rental_no, book_unique_no):
         sql = '''
             update rental set return_date=CURRENT_TIMESTAMP
@@ -86,7 +86,6 @@ class DBManager():
             update book set `condition`='대여가능' where book_unique_no=%s;
         '''
         self.insert(sql, book_unique_no)
-        
 
     def extend_book(self, rental_no):
         sql = '''
@@ -94,7 +93,7 @@ class DBManager():
         '''
         self.insert(sql, 5, rental_no)
 
-    def rental_book(self, reservation_no, user_no, book_no):
+    def reservation_done(self, reservation_no, user_no, book_no):
         sql = '''
             select book_unique_no from book
             where 
@@ -118,9 +117,9 @@ class DBManager():
                 update reservation set `state`='예약완료' where reservation_no=%s
             '''
             self.insert(sql, reservation_no)
-            return 0
+            return True
         else:
-            return -1
+            return False
         # book_no로 대여 안되어있는 book_unique_no 하나 찾아서 대여처리
 
     def request_book(self, title, area_no, publisher, published_date, author):
@@ -135,7 +134,6 @@ class DBManager():
         '''
         return self.selects(sql)
 
-     
     def search_book(self, title, size, page):
         sql = '''
             select
@@ -154,7 +152,7 @@ class DBManager():
             limit %s, %s
             ;
         '''
-        return self.selects(sql, "%"+title+"%","%"+title+"%", size * (page-1), size)
+        return self.selects(sql, "%"+title+"%", "%"+title+"%", size * (page-1), size)
 
     def register_check(self, user_id):
         sql = '''
@@ -171,3 +169,62 @@ class DBManager():
                 (%s, %s, %s, %s)
         '''
         return self.insert(sql, user_id, user_name, email, phonenum)
+
+    def book_detail(self, book_no):
+        sql = '''
+            select
+                area.category,
+                book_detail.book_no, book_detail.title, book_detail.author, book_detail.publisher,
+                cast(book_detail.published_date as date) published_date,
+                count(if(book.condition='대여가능' and book.book_unique_no,1,NULL)) count
+            from
+                book_detail
+            left join area
+                on
+                    area.area_no = book_detail.area_no
+            left outer join book
+                on
+                    book.book_no = book_detail.book_no
+            where
+                book_detail.book_no=%s;
+        '''
+        return self.select(sql, book_no)
+
+    def book_list(self, book_no):
+        sql = '''
+            select * from book where book_no=%s
+        '''
+        return self.selects(sql, book_no) 
+        
+    def rental_book(self, user_no, book_unique_no, rental_date, due_date, note):
+        sql = '''
+            select 1 from book
+            where 
+                book_unique_no = %s
+                and `condition`='대여가능' 
+        '''
+        row = self.select(sql, book_unique_no)
+        if(row is not None): 
+            sql = '''
+                update book set `condition`='대여중' where book_unique_no=%s;
+            '''
+            self.insert(sql, book_unique_no)
+            sql = '''
+                insert into rental (user_no, book_unique_no, rental_date, due_date, note) VALUES (%s, %s, %s, %s, %s)
+            ''' 
+            self.insert(sql, user_no, book_unique_no, rental_date, due_date, note)
+            return True
+        else:
+            return False
+
+    def add_book(self, book_no):
+        sql = '''
+            insert into book (book_no, `condition`) VALUES (%s, '대여가능');
+        '''
+        return self.insert(sql, book_no)
+
+    def remove_book(self, book_unique_no):
+        sql = '''
+            delete from book where book_unique_no=%s
+        '''
+        return self.insert(sql, book_unique_no)

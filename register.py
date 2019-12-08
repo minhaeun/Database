@@ -66,7 +66,7 @@ class RegisterDialog(object):
 
     def retranslateUi(self, RegisterDialog):
         _translate = QtCore.QCoreApplication.translate
-        RegisterDialog.setWindowTitle(_translate("RegisterDialog", "Dialog"))
+        RegisterDialog.setWindowTitle(_translate("RegisterDialog", "KU Library"))
         self.lineEdit3.setPlaceholderText(_translate("RegisterDialog", "Phone Number"))
         self.lineEdit2.setPlaceholderText(_translate("RegisterDialog", "Email"))
         self.lineEdit0.setPlaceholderText(_translate("RegisterDialog", "Userid"))
@@ -96,24 +96,16 @@ class RegisterDialog(object):
     def show_info(self, title, message):
         msgbox = QtWidgets.QMessageBox(self.Dialog)
         msgbox.setIcon(QtWidgets.QMessageBox.Information)
-        msgbox.setText(title)
-        msgbox.setInformativeText(message)
+        msgbox.setWindowTitle(title)
+        msgbox.setText(message)
         msgbox.setStandardButtons(QtWidgets.QMessageBox.Ok)
         return msgbox.exec()
 
     def show_alert(self, title, message):
         msgbox = QtWidgets.QMessageBox(self.Dialog)
         msgbox.setIcon(QtWidgets.QMessageBox.Warning)
-        msgbox.setText(title)
-        msgbox.setInformativeText(message)
+        msgbox.setWindowTitle(title)
+        msgbox.setText(message)
         msgbox.setStandardButtons(QtWidgets.QMessageBox.Ok)
         return msgbox.exec()
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    RegisterDialog = QtWidgets.QDialog()
-    ui = Ui_RegisterDialog(None)
-    ui.setupUi(RegisterDialog)
-    RegisterDialog.show()
-    sys.exit(app.exec_())
+ 

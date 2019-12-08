@@ -9,6 +9,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class UserInqueryDialog(object):
     dbmanager = None
     page_rental = 1
@@ -107,7 +108,7 @@ class UserInqueryDialog(object):
         self.treeWidget = QtWidgets.QTreeWidget(Dialog)
         self.treeWidget.setGeometry(QtCore.QRect(260, 50, 561, 201))
         self.treeWidget.setWordWrap(True)
-        self.treeWidget.setColumnCount(6) # 메모추가하면 7개
+        self.treeWidget.setColumnCount(6)  # 메모추가하면 7개
         self.treeWidget.setObjectName("treeWidget")
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("image/books.png"),
@@ -190,7 +191,6 @@ class UserInqueryDialog(object):
         self.btnExtend.setGeometry(QtCore.QRect(700, 10, 61, 32))
         self.btnExtend.setObjectName("btnExtend")
 
-
         self.btnRental = QtWidgets.QPushButton(Dialog)
         self.btnRental.setGeometry(QtCore.QRect(761, 281, 61, 32))
         self.btnRental.setObjectName("btnRental")
@@ -207,7 +207,7 @@ class UserInqueryDialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        Dialog.setWindowTitle(_translate("Dialog", "KU Library"))
         self.txtUserid.setPlaceholderText(_translate("Dialog", "Userid"))
 
         self.groupBox.setTitle(_translate("Dialog", "사용자 정보"))
@@ -254,11 +254,11 @@ class UserInqueryDialog(object):
         self.treeWidget_2.headerItem().setText(6, _translate("Dialog", "대여가능 수"))
 
         self.label_12.setText(_translate("Dialog", "예약현황"))
-        
+
         # self.groupBox_2.setTitle(_translate("Dialog", "리 관리"))
         # self.pushButton_2.setText(_translate("Dialog", "대출"))
         # self.pushButton_3.setText(_translate("Dialog", "예약"))
-        
+
         self.btnReturn.setText(_translate("Dialog", "반납"))
         self.btnExtend.setText(_translate("Dialog", "연장"))
         self.btnRental.setText(_translate("Dialog", "대여"))
@@ -297,8 +297,8 @@ class UserInqueryDialog(object):
     def show_alert(self, title, message):
         msgbox = QtWidgets.QMessageBox(self.Dialog)
         msgbox.setIcon(QtWidgets.QMessageBox.Warning)
-        msgbox.setText(title)
-        msgbox.setInformativeText(message)
+        msgbox.setWindowTitle(title)
+        msgbox.setText(message)
         msgbox.setStandardButtons(QtWidgets.QMessageBox.Ok)
         return msgbox.exec()
 
@@ -371,16 +371,17 @@ class UserInqueryDialog(object):
                 title = items[0].text(2)
 
                 messagebox = QtWidgets.QMessageBox(self.Dialog)
-                messagebox.setText("도서 대여")
-                messagebox.setInformativeText("'%s'\n\n대여처리 하시겠습니까?" % title)
+                messagebox.setWindowTitle("도서 대여")
+                messagebox.setText("'%s'\n\n대여처리 하시겠습니까?" % title)
                 messagebox.setStandardButtons(
                     QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.No)
                 messagebox.setDefaultButton(QtWidgets.QMessageBox.Ok)
                 messagebox.setIcon(QtWidgets.QMessageBox.Question)
                 ret = messagebox.exec()
                 if(ret == QtWidgets.QMessageBox.Ok):
-                    result = self.dbmanager.rental_book(reservation_no, userno, book_no)
-                    if(result == -1):
+                    result = self.dbmanager.reservation_done(
+                        reservation_no, userno, book_no)
+                    if(result == False):
                         self.show_alert("도서대여", "대여 가능한 책이 없습니다.")
                     self.inquery_info()
                     self.inquery_rental()
@@ -397,8 +398,8 @@ class UserInqueryDialog(object):
                 title = items[0].text(2)
 
                 messagebox = QtWidgets.QMessageBox(self.Dialog)
-                messagebox.setText("도서 반납")
-                messagebox.setInformativeText("'%s'\n\n반납처리 하시겠습니까?" % title)
+                messagebox.setWindowTitle("도서 반납")
+                messagebox.setText("'%s'\n\n반납처리 하시겠습니까?" % title)
                 messagebox.setStandardButtons(
                     QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.No)
                 messagebox.setDefaultButton(QtWidgets.QMessageBox.Ok)
@@ -418,8 +419,8 @@ class UserInqueryDialog(object):
                 title = items[0].text(2)
                 rental_no = items[0].text(0)
                 messagebox = QtWidgets.QMessageBox(self.Dialog)
-                messagebox.setText("도서 연장")
-                messagebox.setInformativeText("'%s'\n\n연장처리 하시겠습니까?" % title)
+                messagebox.setWindowTitle("도서 연장")
+                messagebox.setText("'%s'\n\n연장처리 하시겠습니까?" % title)
                 messagebox.setStandardButtons(
                     QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.No)
                 messagebox.setDefaultButton(QtWidgets.QMessageBox.Ok)
@@ -428,7 +429,6 @@ class UserInqueryDialog(object):
                 if(ret == QtWidgets.QMessageBox.Ok):
                     self.dbmanager.extend_book(rental_no)
                     self.inquery_rental()
-
 
     def setEvent(self):
         self.pushButton.clicked.connect(lambda: self.btnInqueryClicked())  # 조회
@@ -440,14 +440,3 @@ class UserInqueryDialog(object):
     def addItem(self, tree):
         item = QtWidgets.QTreeWidgetItem(tree)
         return item
-
-
-if __name__ == "__main__":
-    import sys
-    import dbmanager
-    app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDialog()
-    ui = UserInqueryDialog(dbmanager.DBManager())
-    ui.setupUi(Dialog)
-    Dialog.show()
-    sys.exit(app.exec_())
