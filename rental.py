@@ -76,7 +76,7 @@ class RentalDialog(object):
         self.label_27 = QtWidgets.QLabel(Dialog)
         self.label_27.setGeometry(QtCore.QRect(50, 20, 41, 41))
         self.label_27.setText("")
-        self.label_27.setPixmap(QtGui.QPixmap(".\\ui\\image/open-book.png"))
+        self.label_27.setPixmap(QtGui.QPixmap("ui/image/open-book.png"))
         self.label_27.setScaledContents(True)
         self.label_27.setObjectName("label_27")
         self.label_memo = QtWidgets.QLabel(Dialog)
@@ -124,6 +124,7 @@ class RentalDialog(object):
             if(not self.reservation):
                 if(self.dbmanager.rental_book(user_no, self.book_unique_no, self.dateEdit_today.date().toString("yyyy-MM-dd"), self.dateEdit_duedate.date().toString("yyyy-MM-dd"), self.lineEdit_5.text()) == True):
                     self.show_message("도서 대여", "도서 대여가 완료되었습니다.")
+                    self.parent.getBookInfo()
                     self.parent.addBookList()
                     self.Dialog.close()
                 else:
@@ -131,6 +132,7 @@ class RentalDialog(object):
             else:
                 if(self.dbmanager.reservation_book(user_no, self.book_no) == 1):
                     self.show_message("도서 예약", "도서 예약이 완료되었습니다.")
+                    self.parent.getBookInfo()
                     self.parent.addBookList()
                     self.Dialog.close()
 

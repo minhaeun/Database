@@ -136,11 +136,13 @@ class SearchDetailDialog(object):
         ret = messagebox.exec()
         if(ret == QtWidgets.QMessageBox.Ok):
             self.dbmanager.add_book(self.book_no)
+            self.getBookInfo()
             self.addBookList() # refresh 
 
     def remove_book(self, book_unique_no):
         self.dbmanager.remove_book(book_unique_no)
-        self.addBookList() # refresh
+        self.getBookInfo()
+        self.addBookList() # refresh 
         pass
 
     def rental_book(self, book_unique_no):

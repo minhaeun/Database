@@ -111,7 +111,7 @@ class Ui_MainWindow(object):
         self.label_7.setScaledContents(True)
         self.label_7.setObjectName("label_7")
         self.label_8 = QtWidgets.QLabel(self.centralwidget)
-        self.label_8.setGeometry(QtCore.QRect(410, 460, 81, 81))
+        self.label_8.setGeometry(QtCore.QRect(400, 460, 81, 81))
         self.label_8.setText("")
         self.label_8.setPixmap(QtGui.QPixmap("ui/image/out-of-time.png"))
         self.label_8.setScaledContents(True)

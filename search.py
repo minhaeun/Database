@@ -36,7 +36,7 @@ class SearchDialog(object):
         font.setFamily("나눔고딕")
         self.label_27.setFont(font)
         self.label_27.setText("")
-        self.label_27.setPixmap(QtGui.QPixmap("image/open-book.png"))
+        self.label_27.setPixmap(QtGui.QPixmap("ui/image/open-book.png"))
         self.label_27.setScaledContents(True)
         self.label_27.setObjectName("label_27")
         self.label = QtWidgets.QLabel(Dialog)

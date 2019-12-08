@@ -111,7 +111,7 @@ class UserInqueryDialog(object):
         self.treeWidget.setColumnCount(6)  # 메모추가하면 7개
         self.treeWidget.setObjectName("treeWidget")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("image/books.png"),
+        icon.addPixmap(QtGui.QPixmap("ui/image/books.png"),
                        QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.treeWidget.headerItem().setIcon(2, icon)
         # icon1 = QtGui.QIcon()
@@ -131,13 +131,13 @@ class UserInqueryDialog(object):
         self.label_10 = QtWidgets.QLabel(Dialog)
         self.label_10.setGeometry(QtCore.QRect(270, 10, 32, 32))
         self.label_10.setText("")
-        self.label_10.setPixmap(QtGui.QPixmap("image/books.png"))
+        self.label_10.setPixmap(QtGui.QPixmap("ui/image/books.png"))
         self.label_10.setScaledContents(True)
         self.label_10.setObjectName("label_10")
         self.label_11 = QtWidgets.QLabel(Dialog)
         self.label_11.setGeometry(QtCore.QRect(270, 280, 32, 32))
         self.label_11.setText("")
-        self.label_11.setPixmap(QtGui.QPixmap("image/reserved.png"))
+        self.label_11.setPixmap(QtGui.QPixmap("ui/image/reserved.png"))
         self.label_11.setScaledContents(True)
         self.label_11.setObjectName("label_11")
         self.label_12 = QtWidgets.QLabel(Dialog)

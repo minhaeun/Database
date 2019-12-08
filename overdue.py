@@ -19,7 +19,7 @@ class Ui_Dialog(object):
         self.label = QtWidgets.QLabel(Dialog)
         self.label.setGeometry(QtCore.QRect(50, 60, 81, 71))
         self.label.setText("")
-        self.label.setPixmap(QtGui.QPixmap("image/out-of-time (1).png"))
+        self.label.setPixmap(QtGui.QPixmap("ui/image/out-of-time (1).png"))
         self.label.setScaledContents(True)
         self.label.setObjectName("label")
         self.treeWidget = QtWidgets.QTreeWidget(Dialog)
