@@ -159,7 +159,7 @@ class DBManager():
             select count(1) count from user where user_id=%s
         '''
         return self.select(sql, user_id)
-        pass
+        
 
     def register(self, user_id, user_name, email, phonenum):
         sql = '''
