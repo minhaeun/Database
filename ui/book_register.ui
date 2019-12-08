@@ -46,7 +46,7 @@
     </font>
    </property>
    <property name="text">
-    <string>도서등록</string>
+    <string>도서신청</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">

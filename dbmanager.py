@@ -4,7 +4,7 @@ import pymysql
 class DBManager():
     def __init__(self):
         self.conn = pymysql.connect(
-            host='192.168.29.165', port=3306, user='root', passwd='', db='library', autocommit=True)
+            host='192.168.0.18', port=3306, user='root', passwd='', db='library', autocommit=True)
 
     def select(self, query, *args):
         cursor = self.conn.cursor(pymysql.cursors.DictCursor)
@@ -228,3 +228,26 @@ class DBManager():
             delete from book where book_unique_no=%s
         '''
         return self.insert(sql, book_unique_no)
+
+    def overdue(self):
+        sql = '''
+            select user.user_no, user.user_name, count(1) count
+            from rental,user
+            where user.user_no = rental.user_no
+            and datediff(now(), rental.due_date) > 0
+            and rental.return_date is null
+            group by  user.user_no;
+        '''
+        return self.selects(sql)
+
+    def overdue_detail(self, user_no):
+        sql = '''
+            select rental.rental_no, rental.book_unique_no, book_detail.title, rental.rental_date, datediff(now(), rental.due_date) overdue
+            from rental, book_detail, book
+            where %s = rental.user_no
+            and book.book_unique_no = rental.book_unique_no
+            and book_detail.book_no = book.book_no
+            and datediff(now(), rental.due_date) > 0
+            and rental.return_date is null;
+        '''
+        return self.selects(sql,user_no)
