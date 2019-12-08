@@ -412,8 +412,7 @@ class UserInqueryDialog(object):
 
     def btnExtendClicked(self):
         userid = self.userid
-        if(userid is not None):
-            userno = self.userno
+        if(userid is not None): 
             items = self.treeWidget.selectedItems()
             if(items):
                 title = items[0].text(2)
