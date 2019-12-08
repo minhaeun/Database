@@ -13,7 +13,7 @@ from search import SearchDialog
 from register import RegisterDialog
 from book_register import BookRegisterDialog
 from user_inquery import UserInqueryDialog
-
+from overdue import Ui_Dialog as OverdueDialog
 class Ui_MainWindow(object):
     def __init__(self):
         self.dbmanager = DBManager()
@@ -194,7 +194,11 @@ class Ui_MainWindow(object):
         pass
     
     def btnManageClicked(self):
-        pass
+        dialog = QtWidgets.QDialog(self.MainWindow)
+        dialog_ui = OverdueDialog(self.dbmanager)
+        dialog_ui.setupUi(dialog)
+        dialog.setModal(True)
+        dialog.show()
 
     def addBtnListener(self):
         self.pushButton.clicked.connect(self.btnRegisterClicked) # 회원등록

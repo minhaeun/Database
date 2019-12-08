@@ -8,11 +8,12 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from dbmanager import DBManager
 
 class Ui_Dialog(object):
+    def __init__(self,dbmanager):
+        self.dbmanager = dbmanager
+
     def setupUi(self, Dialog):
-        self.dbmanager = DBManager()
         Dialog.setObjectName("Dialog")
         Dialog.resize(975, 692)
         self.label = QtWidgets.QLabel(Dialog)
@@ -22,15 +23,27 @@ class Ui_Dialog(object):
         self.label.setScaledContents(True)
         self.label.setObjectName("label")
         self.treeWidget = QtWidgets.QTreeWidget(Dialog)
-        self.treeWidget.setGeometry(QtCore.QRect(50, 170, 391, 461))
+        self.treeWidget.setGeometry(QtCore.QRect(50, 170, 270, 461))
         font = QtGui.QFont()
         font.setFamily("나눔고딕")
         font.setBold(True)
         font.setWeight(75)
+        self.treeWidget.setColumnCount(3)
+        self.treeWidget.setWordWrap(True)
         self.treeWidget.setFont(font)
+        self.treeWidget.setColumnWidth(0,50)
+        self.treeWidget.setColumnWidth(1,80)
+      #  self.treeWidget.setColumnWidth(2,50)
         self.treeWidget.setObjectName("treeWidget")
         self.treeWidget_2 = QtWidgets.QTreeWidget(Dialog)
-        self.treeWidget_2.setGeometry(QtCore.QRect(485, 171, 451, 461))
+        self.treeWidget_2.setGeometry(QtCore.QRect(350, 171, 600, 461))
+        self.treeWidget_2.setColumnCount(5)
+        self.treeWidget_2.setColumnWidth(0,50)
+        self.treeWidget_2.setColumnWidth(1,80)
+        self.treeWidget_2.setColumnWidth(2,220)
+        self.treeWidget_2.setColumnWidth(3,150)
+        self.treeWidget_2.setColumnWidth(4,80)
+        
         font = QtGui.QFont()
         font.setFamily("나눔고딕")
         font.setBold(True)
@@ -62,9 +75,9 @@ class Ui_Dialog(object):
         self.treeWidget_2.headerItem().setText(3, _translate("Dialog", "대출 날짜"))
         self.treeWidget_2.headerItem().setText(4, _translate("Dialog", "연체 일수"))
         self.label_2.setText(_translate("Dialog", "회원 별 연체 목록"))
-
+        self.treeWidget.itemDoubleClicked.connect(lambda item:self.itemDoubleClicked(item))
         self.show_user()
-        self.show_detail(1)
+        #self.show_detail(3)
     def show_user(self):
         result = self.dbmanager.overdue()
         for row in result:
@@ -75,7 +88,7 @@ class Ui_Dialog(object):
 
     def show_detail(self,user_no):
         result = self.dbmanager.overdue_detail(user_no)
-        print(result)
+        self.treeWidget_2.clear()
         for row in result:
             item = QtWidgets.QTreeWidgetItem(self.treeWidget_2)
             item.setText(0,str(row["rental_no"]))
@@ -83,15 +96,7 @@ class Ui_Dialog(object):
             item.setText(2,row["title"])
             item.setText(3,str(row["rental_date"]))
             item.setText(4,str(row["overdue"]))
-            
+
+    def itemDoubleClicked(self,item):
+        self.show_detail(item.text(0))      
         
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDialog()
-    ui = Ui_Dialog()
-    ui.setupUi(Dialog)
-    Dialog.show()
-    sys.exit(app.exec_())

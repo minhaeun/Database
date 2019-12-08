@@ -243,7 +243,7 @@ class DBManager():
 
     def overdue_detail(self, user_no):
         sql = '''
-            select rental.rental_no, rental.book_unique_no, book_detail.title, rental.rental_date, datediff(now(), rental.due_date) overdue
+            select rental.rental_no, rental.book_unique_no, book_detail.title, cast(rental.rental_date as date) rental_date, datediff(now(), rental.due_date) overdue
             from rental, book_detail, book
             where %s = rental.user_no
             and book.book_unique_no = rental.book_unique_no
