@@ -4,7 +4,7 @@ import pymysql
 class DBManager():
     def __init__(self):
         self.conn = pymysql.connect(
-            host='192.168.0.18', port=3306, user='root', passwd='', db='library', autocommit=True)
+            host='localhost', port=3306, user='root', passwd='', db='library', autocommit=True)
 
     def select(self, query, *args):
         cursor = self.conn.cursor(pymysql.cursors.DictCursor)
