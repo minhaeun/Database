@@ -143,16 +143,19 @@ class SearchDetailDialog(object):
         self.addBookList() # refresh
         pass
 
-    def rental_book(self, book_unique_no):  
+    def rental_book(self, book_unique_no):
         Dialog = QtWidgets.QDialog(self.Dialog)
-        ui = RentalDialog(self.dbmanager, book_unique_no)
+        ui = RentalDialog(self.dbmanager, book_unique_no, self.book_no, par=self)
         ui.setupUi(Dialog)
         Dialog.setModal(True)
         Dialog.show() 
 
     def reservation_book(self, book_unique_no):
-        self.show_alert("도서예약","만들어야합니다")
-        pass
+        Dialog = QtWidgets.QDialog(self.Dialog)
+        ui = RentalDialog(self.dbmanager, book_unique_no, self.book_no, reservation=True, par=self)
+        ui.setupUi(Dialog)
+        Dialog.setModal(True)
+        Dialog.show() 
 
     def show_alert(self, title, message):
         msgbox = QtWidgets.QMessageBox(self.Dialog)
@@ -189,9 +192,10 @@ class BookInfo(QtWidgets.QWidget):
         layout.setWidget(2, QtWidgets.QFormLayout.FieldRole, lbState) 
 
         form = QtWidgets.QWidget()
-        form.setMinimumSize(QtCore.QSize(0, 40))
+        # form.setMinimumSize(QtCore.QSize(0, 40))
         horizontalLayout = QtWidgets.QHBoxLayout()
         horizontalLayout.setObjectName("horizontalLayout")
+        # horizontalLayout.SetMinimumSize(QtCore.QSize(0, 40))
         btnRental = QtWidgets.QPushButton("대여")
         btnRental.setObjectName("btnRental")
         horizontalLayout.addWidget(btnRental)
@@ -202,7 +206,9 @@ class BookInfo(QtWidgets.QWidget):
         btnReservation.setObjectName("btnRemove")
         horizontalLayout.addWidget(btnReservation)
         form.setLayout(horizontalLayout)
+        form.setFixedHeight(40)
         layout.setWidget(3, QtWidgets.QFormLayout.FieldRole, form)
+        # layout.SetFixedSize(30)
         btnRental.setEnabled(enabled)  # 대여상태 아닐때만 대여 가능
         btnRemove.setEnabled(enabled)  # 대여상태 아닐때만 삭제 가능
         btnReservation.setEnabled(not enabled)

@@ -4,7 +4,7 @@ import pymysql
 class DBManager():
     def __init__(self):
         self.conn = pymysql.connect(
-            host='192.168.29.165', port=3306, user='root', passwd='', db='library', autocommit=True)
+            host='192.168.0.18', port=3306, user='root', passwd='', db='library', autocommit=True)
 
     def select(self, query, *args):
         cursor = self.conn.cursor(pymysql.cursors.DictCursor)
@@ -228,3 +228,12 @@ class DBManager():
             delete from book where book_unique_no=%s
         '''
         return self.insert(sql, book_unique_no)
+
+    def reservation_book(self, user_no, book_no):
+        sql = '''
+            insert into reservation
+                (user_no, book_no, reservation_date, state)
+            values
+                (%s, %s, CURRENT_TIMESTAMP, '예약중')
+        '''
+        return self.insert(sql, user_no, book_no)

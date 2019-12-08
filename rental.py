@@ -11,9 +11,12 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class RentalDialog(object):
-    def __init__(self, dbmanager, book_unique_no):
+    def __init__(self, dbmanager, book_unique_no, book_no, reservation=False, par=None):
+        self.parent = par
         self.dbmanager = dbmanager
         self.book_unique_no = book_unique_no
+        self.book_no = book_no
+        self.reservation = reservation
 
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
@@ -104,22 +107,36 @@ class RentalDialog(object):
 
         import datetime
         self.dateEdit_today.setDate(datetime.datetime.now())
-        self.dateEdit_duedate.setDate(datetime.datetime.now() + datetime.timedelta(days=5))
+        self.dateEdit_duedate.setDate(
+            datetime.datetime.now() + datetime.timedelta(days=5))
         self.dateEdit_duedate.setMinimumDate(self.dateEdit_today.date())
+        self.dateEdit_today.setEnabled(not self.reservation)
+        self.dateEdit_duedate.setEnabled(not self.reservation)
+        self.lineEdit_5.setEnabled(not self.reservation)
+        
         # self.dateEdit_duedate.setEnabled(False)
+
     def btnRentalClicked(self):
         user_id = self.lineEdit.text()
         info = self.dbmanager.inquery_info(user_id)
         if(info is not None):
             user_no = info['user_no']
-            if(self.dbmanager.rental_book(user_no, self.book_unique_no, self.dateEdit_today.date().toString("yyyy-MM-dd"), self.dateEdit_duedate.date().toString("yyyy-MM-dd"), self.lineEdit_5.text()) == True):
-                self.show_message("도서 대여", "도서 대여가 완료되었습니다.")
-                self.Dialog.close()
+            if(not self.reservation):
+                if(self.dbmanager.rental_book(user_no, self.book_unique_no, self.dateEdit_today.date().toString("yyyy-MM-dd"), self.dateEdit_duedate.date().toString("yyyy-MM-dd"), self.lineEdit_5.text()) == True):
+                    self.show_message("도서 대여", "도서 대여가 완료되었습니다.")
+                    self.parent.addBookList()
+                    self.Dialog.close()
+                else:
+                    self.show_alert("도서 대여", "도서 대여에 실패했습니다.")
             else:
-                self.show_alert("도서 대여", "도서 대여에 실패했습니다.")
-        else: 
+                if(self.dbmanager.reservation_book(user_no, self.book_no) == 1):
+                    self.show_message("도서 예약", "도서 예약이 완료되었습니다.")
+                    self.parent.addBookList()
+                    self.Dialog.close()
+
+        else:
             self.show_alert("사용자 조회", "사용자 조회 결과가 없습니다")
-        
+
     def show_alert(self, title, message):
         msgbox = QtWidgets.QMessageBox(self.Dialog)
         msgbox.setIcon(QtWidgets.QMessageBox.Warning)
