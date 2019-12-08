@@ -190,8 +190,6 @@ class Ui_MainWindow(object):
         dialog.setModal(True)
         dialog.show()
         pass
-    def btnBookRequestClicked(self):
-        pass
     
     def btnManageClicked(self):
         dialog = QtWidgets.QDialog(self.MainWindow)
